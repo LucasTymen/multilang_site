@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Article, Comment
 
+#Creating the necessary forms for registration, creation/updating profile,articles and comments
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
