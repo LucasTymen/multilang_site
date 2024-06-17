@@ -29,6 +29,7 @@ def article_detail(request, slug):
 
 # Creating an article
 @login_required
+# to make sure the user is logged and legit
 def article_create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -46,6 +47,7 @@ def article_create(request):
 
 # Update an article
 @login_required
+# to make sure the user is logged and legit
 def article_update(request, slug):
     article = get_object_or_404(Article, slug=slug)
     # send to 404 if there's no article
@@ -64,6 +66,7 @@ def article_update(request, slug):
 
 # Deleting an article
 @login_required
+# to make sure the user is logged and legit
 def article_delete(request, slug):
     # send to 404 if there's no article
     article = get_object_or_404(Article, slug=slug)
@@ -92,6 +95,7 @@ def register(request):
 
 #defining the profile's view
 @login_required
+# to make sure the user is logged and legit
 def profile(request):
     # verifying credentials are correct
     if request.method == 'POST':
@@ -109,6 +113,7 @@ def profile(request):
 
 # Deleting an account
 @login_required
+# to make sure the user is logged and legit
 def delete_account(request):
     if request.method == 'POST':
         request.user.delete()
