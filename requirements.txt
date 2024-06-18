@@ -1,0 +1,11 @@
+# Django framework
+Django>=4.2.4
+
+# For handling image fields
+Pillow
+
+# For integrating OpenAI's GPT-3 model
+openai
+
+# For improved form rendering
+django-crispy-forms
