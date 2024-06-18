@@ -2,6 +2,12 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+# ####### for using medias ########
+from django.conf import settings
+from django.conf.urls.static import static
+# ####### for using medias ########
+
+
 urlpatterns = [
     path('', views.article_list, name='article_list'),
     path('article/<slug:slug>/', views.article_detail, name='article_detail'),
@@ -14,3 +20,9 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('delete_account/', views.delete_account, name='delete_account'),
 ]
+
+
+# ####### for using medias ########
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# ####### for using medias ########
