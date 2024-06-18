@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
 
-# the categories of the articles
+# The categories of the articles
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -14,9 +13,9 @@ class Category(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    publication_date = models.DateField()
+    publication_date = models.DateField(auto_now_add=True)  # Automatically set the publication date
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, related_name='articles')
     slug = models.SlugField(unique=True)
     meta_description = models.TextField()
 
@@ -29,7 +28,7 @@ class Comment(models.Model):
     author = models.CharField(max_length=100)
     email = models.EmailField()
     content = models.TextField()
-    publication_date = models.DateField(auto_now_add=True)
+    publication_date = models.DateField(auto_now_add=True)  # Automatically set the publication date
 
     def __str__(self):
         return f'Comment by {self.author} on {self.article}'
