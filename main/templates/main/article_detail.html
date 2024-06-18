@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ article.title }}</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
     <h1>{{ article.title }}</h1>
     <p>{{ article.content }}</p>
-    <p>By {{ article.author.username }} on {{ article.publication_date }}</p>
-    <p>{{ article.meta_description }}</p>
-    <a href="{% url 'article_update' article.slug %}">Edit</a>
-    <a href="{% url 'article_delete' article.slug %}">Delete</a>
-    <hr>
+    <p><small class="text-muted">By {{ article.author.username }} on {{ article.publication_date }}</small></p>
+
     <h2>Comments</h2>
     <ul>
         {% for comment in comments %}
-        <li>
-            <p>{{ comment.content }}</p>
-            <p>By {{ comment.author }} on {{ comment.publication_date }}</p>
-        </li>
+            <li>
+                <strong>{{ comment.author }}</strong> - {{ comment.content }}
+                <small class="text-muted">on {{ comment.publication_date }}</small>
+            </li>
         {% endfor %}
     </ul>
-    <hr>
-    <h2>Add a Comment</h2>
+
+    <h2>Add a comment</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add Comment</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-</body>
-</html>
+{% endblock %}

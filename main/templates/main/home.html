@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to My Blog</h1>
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <p class="card-text">{{ article.content|truncatewords:20 }}</p>
+                        <p class="card-text"><small class="text-muted">By {{ article.author.username }} on {{ article.publication_date }}</small></p>
+                        <a href="{% url 'article_detail' article.slug %}" class="btn btn-primary">Read More</a>
+                        {% if user.is_authenticated and user == article.author %}
+                            <a href="{% url 'article_update' article.slug %}" class="btn btn-secondary">Edit</a>
+                            <a href="{% url 'article_delete' article.slug %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
