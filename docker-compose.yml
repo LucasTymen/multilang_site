@@ -1,30 +1,34 @@
-version: '3.8'
+version: '3'
 
 services:
+  db:
+    image: postgres:13
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: multilang_site_db
+      POSTGRES_USER: lucas
+      POSTGRES_PASSWORD: 123password123
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - .:/code
     ports:
       - "8000:8000"
-    environment:
-      - DJANGO_SETTINGS_MODULE=multilang_site.settings
-    env_file:
-      - .env
     depends_on:
       - db
-
-  db:
-    image: postgres:13
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - .env
+      - DB_NAME=multilang_site_db
+      - DB_USER=lucas
+      - DB_PASSWORD=123password123
+      - DB_HOST=db
+      - DB_PORT=5432
+      - SECRET_KEY=aze"é&AZE321
+      - DEBUG=True
+      - ALLOWED_HOSTS=127.0.0.1,localhost
 
 volumes:
   postgres_data:

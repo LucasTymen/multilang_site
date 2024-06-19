@@ -1,26 +1,20 @@
-# Utiliser une image de base officielle de Python
+# Utiliser l'image de base officielle de Python
 FROM python:3.9-slim
 
-# Installer les dépendances système et nettoyer le cache
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gettext \
-    build-essential \
-    libpq-dev \
-    python3-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 # Définir le répertoire de travail
-WORKDIR /app
+WORKDIR /code
 
-# Copier les fichiers requirements.txt et les installer
-COPY requirements.txt /app/
+# Copier les fichiers de requirements
+COPY requirements.txt /code/
+
+# Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le reste du code de l'application
-COPY . /app
+# Copier le reste des fichiers de l'application
+COPY . /code/
 
-# Exposer le port de l'application
+# Exposer le port utilisé par Django
 EXPOSE 8000
 
-# Définir la commande de démarrage par défaut
+# Définir la commande par défaut
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

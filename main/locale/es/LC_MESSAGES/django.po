@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+#: main/templates/main/base.html:6
+msgid "Home"
+msgstr "Inicio"
+
+#: main/templates/main/base.html:7
+msgid "Articles"
+msgstr "Artículos"
+
+#: main/templates/main/base.html:8
+msgid "Create Article"
+msgstr "Crear artículo"
+
+#: main/templates/main/article_list.html:3
+msgid "Article List"
+msgstr "Lista de artículos"
+
+#: main/templates/main/article_list.html:5
+msgid "Create New Article"
+msgstr "Crear nuevo artículo"
+
+#: main/templates/main/article_detail.html:4
+msgid "Comments"
+msgstr "Comentarios"
+
+#: main/templates/main/article_detail.html:6
+msgid "Add Comment"
+msgstr "Agregar comentario"

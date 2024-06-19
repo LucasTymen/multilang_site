@@ -1,5 +1,5 @@
 # Django framework
-Django>=4.2.4
+Django>=4.2.5
 
 # For handling image fields
 Pillow
@@ -9,3 +9,11 @@ openai
 
 # For improved form rendering
 django-crispy-forms
+
+# For PostgreSQL
+psycopg2-binary
+
+# For environment variables
+python-decouple
+
+dj-database-url
