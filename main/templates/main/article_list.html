@@ -4,15 +4,16 @@
 {% block title %}Article List{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
     <h1>Articles</h1>
-    <a href="{% url 'article_create' %}" class="btn btn-primary">
+    <a href="{% url 'article_create' %}" class="btn btn-primary mb-3">
         <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Create"> Create New Article
     </a>
-    <ul>
+    <div class="article-list">
         {% for article in articles %}
-        <li>
-            <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
-            by {{ article.author.username }} on {{ article.publication_date }}
+        <div class="article-card">
+            <h3><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h3>
+            <p>by {{ article.author.username }} on {{ article.publication_date }}</p>
             <a href="{% url 'article_update' article.slug %}" class="btn btn-sm btn-warning">
                 <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
             </a>
@@ -22,7 +23,8 @@
                     <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
                 </button>
             </form>
-        </li>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+</div>
 {% endblock %}

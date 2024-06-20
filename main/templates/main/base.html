@@ -1,77 +1,64 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% load i18n %}{% trans "My Blog" %}{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">
-                                <img src="{% static 'main/media/livres.svg' %}" alt="{% trans "Home" %}" title="{% trans "Home" %}"> {% trans "Home" %}
-                            </a>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right sidebar" id="sidebar-wrapper">
+            <div class="sidebar-heading">My Site </div>
+            <div class="list-group list-group-flush">
+                <a href="/" class="list-group-item list-group-item-action bg-light">Home</a>
+                <a href="/about/" class="list-group-item list-group-item-action bg-light">About</a>
+                {% if user.is_authenticated %}
+                <a href="/accounts/logout/" class="list-group-item list-group-item-action bg-light">Logout</a>
+                {% else %}
+                <a href="/accounts/login/" class="list-group-item list-group-item-action bg-light">Login</a>
+                <a href="/accounts/signup/" class="list-group-item list-group-item-action bg-light">Signup</a>
+                {% endif %}
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_list' %}">
-                                <img src="{% static 'main/media/bulletin-de-vote.svg' %}" alt="{% trans "Articles" %}" title="{% trans "Articles" %}"> {% trans "Articles" %}
-                            </a>
+                            <a class="nav-link" href="/about/">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_create' %}">
-                                <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="{% trans "Create Article" %}" title="{% trans "Create Article" %}"> {% trans "Create Article" %}
-                            </a>
-                        </li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'profile' %}">
-                                    <img src="{% static 'main/media/cote-tete-medical.svg' %}" alt="{% trans "Profile" %}" title="{% trans "Profile" %}"> {% trans "Profile" %}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'logout' %}">
-                                    <img src="{% static 'main/media/verrouiller.svg' %}" alt="{% trans "Logout" %}" title="{% trans "Logout" %}"> {% trans "Logout" %}
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">
-                                    <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="{% trans "Login" %}" title="{% trans "Login" %}"> {% trans "Login" %}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'register' %}">
-                                    <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Register" %}" title="{% trans "Register" %}"> {% trans "Register" %}
-                                </a>
-                            </li>
-                        {% endif %}
                     </ul>
-                    <form action="{% url 'set_language' %}" method="post" class="mt-3">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.path }}">
-                        <select name="language" onchange="this.form.submit()" class="form-control">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% get_available_languages as LANGUAGES %}
-                            {% for lang in LANGUAGES %}
-                                <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
-                                    {{ lang.1 }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </form>
                 </div>
             </nav>
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                {% block content %}
-                {% endblock %}
-            </main>
+
+            <div class="container-fluid mt-4">
+                {% block content %}{% endblock %}
+            </div>
         </div>
+        <!-- /#page-content-wrapper -->
     </div>
+    <!-- /#wrapper -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

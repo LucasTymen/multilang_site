@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'allauth',  # Allauth application for authentication
     'allauth.account',  # Account management for allauth
     'allauth.socialaccount',  # Social account management for allauth
+    'crispy_forms',  # Crispy forms for better form rendering
+    'crispy_bootstrap5',  # Crispy forms template pack for Bootstrap 5
 ]
 
 # Middleware
@@ -115,3 +117,7 @@ SITE_ID = 1  # Required for django-allauth
 # URL configuration for allauth
 LOGIN_REDIRECT_URL = '/'  # Redirect URL after login
 LOGOUT_REDIRECT_URL = '/'  # Redirect URL after logout
+
+# Crispy forms settings
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

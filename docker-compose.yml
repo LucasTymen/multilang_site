@@ -1,4 +1,4 @@
-version: '3'
+version: '3'  # Define the version of the Docker Compose file format
 
 services:
   db:
@@ -7,9 +7,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Persist database data
     environment:
-      POSTGRES_DB: multilang_site_db  # Database name
-      POSTGRES_USER: lucas  # Database user
-      POSTGRES_PASSWORD: 123password123  # Database password
+      POSTGRES_DB: ${POSTGRES_DB}  # Database name from .env
+      POSTGRES_USER: ${POSTGRES_USER}  # Database user from .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Database password from .env
 
   web:
     build: .  # Build the web service from the current directory
@@ -21,14 +21,14 @@ services:
     depends_on:
       - db  # Ensure the db service is started before the web service
     environment:
-      - DB_NAME=multilang_site_db
-      - DB_USER=lucas
-      - DB_PASSWORD=123password123
-      - DB_HOST=db
-      - DB_PORT=5432
-      - SECRET_KEY=aze"é&AZE321
-      - DEBUG=True
-      - ALLOWED_HOSTS=127.0.0.1,localhost
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
 
 volumes:
   postgres_data:  # Define a named volume for persisting PostgreSQL data

@@ -1,33 +1,116 @@
+/* General body styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif; /* Set the default font for the entire page */
+  background-color: #f8f9fa; /* Set a light grey background color */
 }
 
+/* Navbar brand styles */
+.navbar-brand {
+  font-weight: bold; /* Make the brand name bold */
+}
+
+/* Container margin adjustment */
+.container {
+  margin-top: 20px; /* Add space at the top of the container */
+}
+
+/* Sidebar styles */
 .sidebar {
-  height: 100vh;
-  position: fixed;
+  height: 100vh; /* Full height of the viewport */
+  position: fixed; /* Fix the position of the sidebar */
 }
 
+/* Main content styles */
 .main {
-  margin-left: 220px; /* Same as the width of the sidebar */
-  padding: 20px;
+  margin-left: 220px; /* Space the main content from the sidebar */
+  padding: 20px; /* Add padding around the main content */
 }
 
+/* Navigation styles */
 ul.nav.flex-column {
-  padding-left: 0;
+  padding-left: 0; /* Remove default padding */
 }
 
 ul.nav.flex-column li.nav-item {
-  list-style: none;
+  list-style: none; /* Remove default list styling */
 }
 
 ul.nav.flex-column li.nav-item a.nav-link {
-  display: block;
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
+  display: block; /* Make the link a block element */
+  padding: 10px 15px; /* Add padding around the link */
+  color: #333; /* Set the text color */
+  text-decoration: none; /* Remove default underline */
 }
 
 ul.nav.flex-column li.nav-item a.nav-link:hover {
-  background-color: #f8f9fa;
-  color: #007bff;
+  background-color: #f8f9fa; /* Change background on hover */
+  color: #007bff; /* Change text color on hover */
+}
+
+/* Wrapper for sidebar and main content */
+#wrapper {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Arrange items in a row */
+}
+
+/* Sidebar wrapper styles */
+#sidebar-wrapper {
+  min-width: 250px; /* Minimum width of the sidebar */
+  max-width: 250px; /* Maximum width of the sidebar */
+  height: 100vh; /* Full height of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Page content wrapper styles */
+#page-content-wrapper {
+  flex: 1; /* Allow the content to take the remaining space */
+  padding-left: 250px; /* Space from the sidebar */
+}
+
+/* Menu toggle button styles */
+#menu-toggle {
+  margin-left: 20px; /* Add margin to the left of the button */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px; /* Hide the sidebar when toggled */
+  }
+
+  #page-content-wrapper {
+    padding-left: 0; /* Remove left padding for the main content */
+  }
+}
+
+/* Article list styles */
+.article-list {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange items in a column */
+  align-items: center; /* Center items vertically */
+}
+
+.article-card {
+  width: 60%; /* Set the width of the cards */
+  height: 100px; /* Set the height of the cards */
+  display: flex; /* Use flexbox for the card layout */
+  flex-direction: column; /* Arrange content in a column */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  border: 1px solid #ddd; /* Add a border to the cards */
+  margin-bottom: 10px; /* Add space between the cards */
+  background-color: #fff; /* Set the background color */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.article-card h3 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.2rem; /* Set the font size */
+}
+
+.article-card p {
+  margin: 5px 0 0; /* Add margin to the paragraph */
+  font-size: 0.9rem; /* Set the font size */
+  color: #555; /* Set the text color */
 }

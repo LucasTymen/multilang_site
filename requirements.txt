@@ -21,3 +21,6 @@ dj-database-url
 
 # For handling authentication in Django applications, providing login, registration, and social authentication features
 django-allauth
+
+# For using Bootstrap 5 with crispy forms
+crispy-bootstrap5
