@@ -3,40 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% load i18n %}{% trans "My Blog" %}{% endblock %}</title>
-    <!-- Loading the i18n module for translations must be done before using the trans tag -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  {% extends 'main/base.html' %}
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">{% trans "Home" %}</a>
-                            <!-- Home link -->
+                            <a class="nav-link active" href="{% url 'home' %}">
+                                <img src="{% static 'main/media/livres.svg' %}" alt="{% trans "Home" %}" title="{% trans "Home" %}"> {% trans "Home" %}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_list' %}">{% trans "Articles" %}</a>
-                            <!-- Articles link -->
+                            <a class="nav-link" href="{% url 'article_list' %}">
+                                <img src="{% static 'main/media/bulletin-de-vote.svg' %}" alt="{% trans "Articles" %}" title="{% trans "Articles" %}"> {% trans "Articles" %}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_create' %}">{% trans "Create Article" %}</a>
-                            <!-- Create Article link -->
+                            <a class="nav-link" href="{% url 'article_create' %}">
+                                <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="{% trans "Create Article" %}" title="{% trans "Create Article" %}"> {% trans "Create Article" %}
+                            </a>
                         </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'profile' %}">
+                                    <img src="{% static 'main/media/cote-tete-medical.svg' %}" alt="{% trans "Profile" %}" title="{% trans "Profile" %}"> {% trans "Profile" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">
+                                    <img src="{% static 'main/media/verrouiller.svg' %}" alt="{% trans "Logout" %}" title="{% trans "Logout" %}"> {% trans "Logout" %}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">
+                                    <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="{% trans "Login" %}" title="{% trans "Login" %}"> {% trans "Login" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">
+                                    <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Register" %}" title="{% trans "Register" %}"> {% trans "Register" %}
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <form action="{% url 'set_language' %}" method="post" class="mt-3">
                         {% csrf_token %}
-                        <!-- CSRF token for security -->
                         <input name="next" type="hidden" value="{{ request.path }}">
-                        <!-- Redirect back to the current page after language change -->
-                        <select name="language" onchange="this.form.submit()">
+                        <select name="language" onchange="this.form.submit()" class="form-control">
                             {% get_current_language as LANGUAGE_CODE %}
                             {% get_available_languages as LANGUAGES %}
-                            <!-- Loop through available languages and set the current one as selected -->
                             {% for lang in LANGUAGES %}
                                 <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
                                     {{ lang.1 }}
@@ -49,7 +70,6 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 {% block content %}
                 {% endblock %}
-                <!-- Content block to be filled in by other templates -->
             </main>
         </div>
     </div>

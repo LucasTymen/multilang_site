@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}{% if form.instance.pk %}Edit Article{% else %}Create Article{% endif %}{% endblock %}
 
@@ -7,6 +8,12 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update{% else %}Create{% endif %}</button>
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+                <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Update"> Update
+            {% else %}
+                <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Create"> Create
+            {% endif %}
+        </button>
     </form>
 {% endblock %}

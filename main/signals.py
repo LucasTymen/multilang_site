@@ -3,16 +3,13 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
 
-
-# Configuring the signaux to create and save profils in main/signals.py
-
-# Creating
+# Signal to create profile when a new user is created
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-# Saving
+# Signal to save profile when the user is saved
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()

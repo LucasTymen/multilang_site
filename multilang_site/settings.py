@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import dj_database_url
 
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,3 +93,7 @@ USE_TZ = True
 # Static files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

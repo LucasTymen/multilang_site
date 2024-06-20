@@ -1,26 +1,41 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>{{ article.content }}</p>
-    <p><small class="text-muted">By {{ article.author.username }} on {{ article.publication_date }}</small></p>
+    <p>{{ article.publication_date }}</p>
+    <p>{{ article.author.username }}</p>
 
     <h2>Comments</h2>
     <ul>
         {% for comment in comments %}
-            <li>
-                <strong>{{ comment.author }}</strong> - {{ comment.content }}
-                <small class="text-muted">on {{ comment.publication_date }}</small>
-            </li>
+        <li>
+            {{ comment.author }}: {{ comment.content }} on {{ comment.publication_date }}
+        </li>
         {% endfor %}
     </ul>
 
-    <h2>Add a comment</h2>
+    <h3>Add a comment</h3>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">
+            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Submit"> Submit
+        </button>
     </form>
+
+    {% if user.is_authenticated and user == article.author %}
+        <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
+            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
+        </a>
+        <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
+            </button>
+        </form>
+    {% endif %}
 {% endblock %}

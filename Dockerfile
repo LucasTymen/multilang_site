@@ -1,20 +1,20 @@
-# Utiliser l'image de base officielle de Python
+# Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
-# Définir le répertoire de travail
+# Set the working directory in the container
 WORKDIR /code
 
-# Copier les fichiers de requirements
+# Copy the requirements file into the container
 COPY requirements.txt /code/
 
-# Installer les dépendances
+# Install any dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le reste des fichiers de l'application
+# Copy the current directory contents into the container at /code
 COPY . /code/
 
-# Exposer le port utilisé par Django
+# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Définir la commande par défaut
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the migration and then start the server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
