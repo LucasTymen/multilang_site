@@ -1,19 +1,23 @@
-# Django framework
+# The Django framework, specifying the version to ensure compatibility
 Django>=4.2.5
 
-# For handling image fields
+# For handling image fields in models, allowing image uploads and processing
 Pillow
 
-# For integrating OpenAI's GPT-3 model
+# For integrating OpenAI's GPT-3 model, useful for AI-driven functionalities
 openai
 
-# For improved form rendering
+# For improved form rendering, providing better UI components for forms
 django-crispy-forms
 
-# For PostgreSQL
+# For PostgreSQL database connectivity
 psycopg2-binary
 
-# For environment variables
+# For environment variables management, making it easier to handle sensitive data and configurations
 python-decouple
 
+# For parsing database URLs, useful in deploying to different environments with different database configurations
 dj-database-url
+
+# For handling authentication in Django applications, providing login, registration, and social authentication features
+django-allauth

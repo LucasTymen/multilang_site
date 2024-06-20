@@ -1,26 +1,21 @@
 from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from django.conf.urls.i18n import i18n_patterns
+from django.urls import path, include  # Import path and include for URL routing
+from django.conf import settings  # Import settings to check debug mode
+from django.conf.urls.static import static  # Import static to serve media files
+from django.conf.urls.i18n import i18n_patterns  # Import i18n_patterns for internationalization
 
+# Define the main URL patterns for the project
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # Admin site URL
+    path('accounts/', include('allauth.urls')),  # Include allauth URLs for authentication
 ]
 
-
-# Définition des URLs pour le projet principal
-urlpatterns = [
-    # Route pour l'admin
-    path('admin/', admin.site.urls),
-]
-
-# Ajout des routes avec prise en charge de l'internationalisation
+# Add routes with internationalization support
 urlpatterns += i18n_patterns(
-    path('', include('main.urls')),
+    path('', include('main.urls')),  # Include URLs from the main application
 )
 
-# Ajout des routes pour servir les fichiers statiques en mode DEBUG
+# Serve static and media files in debug mode
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Serve static files
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Serve media files
