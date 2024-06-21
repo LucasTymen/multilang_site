@@ -1,9 +1,16 @@
 import os
 from pathlib import Path
 from decouple import config  # Use decouple for better environment variable management
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# OpenAI API Key
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Security
 SECRET_KEY = config('SECRET_KEY', default='aze"é&AZE321')
@@ -63,7 +70,7 @@ TEMPLATES = [
 # WSGI
 WSGI_APPLICATION = 'multilang_site.wsgi.application'
 
-# Database
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  # PostgreSQL database backend

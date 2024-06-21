@@ -4,6 +4,11 @@ from django.contrib.auth import login, authenticate
 from .models import Article, Comment, Category
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.utils.translation import gettext as _
+# for the chatbot
+import openai
+from django.conf import settings
+from django.http import JsonResponse
+import json
 
 # Home page view
 def home(request):
@@ -106,3 +111,26 @@ def delete_account(request):
         request.user.delete()
         return redirect('article_list')
     return render(request, 'main/delete_account.html')
+
+# Chatbot view
+def chatbot(request):
+    if request.method == "POST":
+        user_message = json.loads(request.body).get("message")
+        openai.api_key = settings.OPENAI_API_KEY
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=user_message,
+            max_tokens=150
+        )
+        response_text = response.choices[0].text.strip()
+        return JsonResponse({"response": response_text})
+    return render(request, "main/chatbot.html")
+
+# Search view (assuming a fake search function similar to chatbot)
+def search(request):
+    if request.method == "POST":
+        query = json.loads(request.body).get("query")
+        # Simulate a search response for demonstration
+        response_text = f"Simulated search results for: {query}"
+        return JsonResponse({"response": response_text})
+    return render(request, "main/search.html")

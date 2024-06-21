@@ -8,6 +8,7 @@ from django.conf.urls.i18n import i18n_patterns  # Import i18n_patterns for inte
 urlpatterns = [
     path('admin/', admin.site.urls),  # Admin site URL
     path('accounts/', include('allauth.urls')),  # Include allauth URLs for authentication
+    path('', include('main.urls')),  # Include URLs from the main application
 ]
 
 # Add routes with internationalization support
