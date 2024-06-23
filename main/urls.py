@@ -43,7 +43,4 @@ urlpatterns = [
 
     # Route for the chatbot
     path('chatbot/', views.chatbot, name='chatbot'),
-
-    # Route for the search AI function (fake search is replaced with actual)
-    path('search/', views.search, name='search'),
 ]

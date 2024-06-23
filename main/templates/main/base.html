@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,7 @@
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -15,14 +16,31 @@
         <div class="bg-light border-right sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading">My Site </div>
             <div class="list-group list-group-flush">
-                <a href="/" class="list-group-item list-group-item-action bg-light">Home</a>
-                <a href="/about/" class="list-group-item list-group-item-action bg-light">About</a>
+                <a href="/" class="list-group-item list-group-item-action bg-light">{% trans "Home" %}</a>
+                <a href="{% url 'article_list' %}" class="list-group-item list-group-item-action bg-light">{% trans "Articles" %}</a>
+                <a href="{% url 'article_create' %}" class="list-group-item list-group-item-action bg-light">{% trans "Create Article" %}</a>
                 {% if user.is_authenticated %}
-                <a href="/accounts/logout/" class="list-group-item list-group-item-action bg-light">Logout</a>
+                <a href="{% url 'profile' %}" class="list-group-item list-group-item-action bg-light">{% trans "Profile" %}</a>
+                <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-light">{% trans "Logout" %}</a>
                 {% else %}
-                <a href="/accounts/login/" class="list-group-item list-group-item-action bg-light">Login</a>
-                <a href="/accounts/signup/" class="list-group-item list-group-item-action bg-light">Signup</a>
+                <a href="{% url 'login' %}" class="list-group-item list-group-item-action bg-light">{% trans "Login" %}</a>
+                <a href="{% url 'register' %}" class="list-group-item list-group-item-action bg-light">{% trans "Signup" %}</a>
                 {% endif %}
+            </div>
+            <!-- Language selection -->
+            <div class="list-group list-group-flush mt-3">
+                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                    <select name="language" onchange="this.form.submit()" class="form-control">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang in LANGUAGES %}
+                        <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+                            {{ lang.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -34,10 +52,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/">{% trans "Home" %} <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about/">About</a>
+                            <a class="nav-link" href="/about/">{% trans "About" %}</a>
                         </li>
                     </ul>
                 </div>
@@ -51,12 +69,53 @@
     </div>
     <!-- /#wrapper -->
 
+    <!-- Chatbot button -->
+    <button onclick="openChat()" style="position:fixed;bottom:20px;right:20px;z-index:1000;" class="btn btn-primary">{% trans "Chat with us" %}</button>
+
+    <!-- Chatbot sidebar -->
+    <div id="chatbotSidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeChat()">&times;</a>
+        <form id="chat-form">
+            <input type="text" id="message" placeholder="{% trans 'Ask me anything...' %}" required>
+            <button type="submit" id="send-btn">{% trans "Send" %}</button>
+        </form>
+        <div id="chat-response"></div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
     <script>
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
+        });
+
+        function openChat() {
+            document.getElementById("chatbotSidebar").style.width = "300px";
+        }
+
+        function closeChat() {
+            document.getElementById("chatbotSidebar").style.width = "0";
+        }
+
+        document.getElementById('chat-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+            fetch("{% url 'chatbot' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const chatResponse = document.getElementById('chat-response');
+                chatResponse.innerText = data.response;
+                chatResponse.style.display = 'block';
+                document.getElementById('message').value = '';
+            });
         });
     </script>
     {% block extra_js %}{% endblock %}

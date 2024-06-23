@@ -3,6 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
     <h1>Profile</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -20,4 +21,5 @@
             <img src="{% static 'main/media/calendrier-xmark.svg' %}" alt="Delete"> Delete Account
         </button>
     </form>
+</div>
 {% endblock %}

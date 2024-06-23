@@ -105,6 +105,21 @@ USE_I18N = True  # Use internationalization
 USE_L10N = True  # Use localization
 USE_TZ = True  # Use time zones
 
+# List of available languages
+from django.utils.translation import gettext_lazy as _
+LANGUAGES = [
+    ('en', _('English')),
+    ('fr', _('French')),
+    ('es', _('Spanish')),
+    ('de', _('German')),
+    ('zh-hans', _('Simplified Chinese')),
+    ('ar', _('Arabic')),
+    ('ru', _('Russian')),
+    # Add more languages here
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
 # Static files
 STATIC_URL = '/static/'  # URL for serving static files
 STATICFILES_DIRS = [BASE_DIR / 'static']  # Directories to search for static files
