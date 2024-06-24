@@ -57,8 +57,10 @@ class CommentModelTest(TestCase):
 class ProfileModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='12345')
-        self.profile = Profile.objects.create(user=self.user, image='profile_pics/default.jpg')
+        if not Profile.objects.filter(user=self.user).exists():
+            self.profile = Profile.objects.create(user=self.user, image='profile_pics/default.jpg')
 
     def test_profile_creation(self):
-        self.assertEqual(self.profile.user.username, 'testuser')
-        self.assertEqual(self.profile.image, 'profile_pics/default.jpg')
+        profile = Profile.objects.get(user=self.user)
+        self.assertEqual(profile.user.username, 'testuser')
+        self.assertEqual(str(profile.image), 'profile_pics/default.jpg')

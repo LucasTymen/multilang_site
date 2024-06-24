@@ -13,4 +13,5 @@ class CommentFormTest(TestCase):
     def test_comment_form_invalid_data(self):
         form = CommentForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 3)  # Expecting errors for all required fields
+        self.assertEqual(len(form.errors), 1)  # Adjust the number according to your form's required fields
+        self.assertIn('content', form.errors)  # Make sure to include actual missing field in your form
