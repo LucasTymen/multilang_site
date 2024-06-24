@@ -3,7 +3,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from .models import Article, Comment
+from .models import Article, Comment, ChatbotInteraction
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
 from .chatbot import get_chatbot_response  # Ensure this function exists
 import openai

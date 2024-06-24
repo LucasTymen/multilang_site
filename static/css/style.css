@@ -179,6 +179,13 @@ ul.nav.flex-column li.nav-item a.nav-link:hover {
   background-color: #4CAF50;
   color: white;
 }
+
+/* static/css/chatbot.css */
+#chat-response {
+  height: 400px;
+  overflow-y: scroll;
+}
+
 /* end of style for the catbot */
 
 /* Fonts */
