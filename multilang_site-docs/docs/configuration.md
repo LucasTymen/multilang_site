@@ -43,3 +43,41 @@ DATABASES = {
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+
+# Configuration
+
+1. Configure database and internationalization settings in `settings.py`:
+
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT', default='5432'),
+        }
+    }
+
+    LANGUAGE_CODE = 'en-us'
+
+    LANGUAGES = [
+        ('en', 'English'),
+        ('fr', 'Français'),
+        ('it', 'Italiano'),
+        ('de', 'Deutsch'),
+        ('es', 'Español'),
+    ]
+
+    LOCALE_PATHS = [
+        BASE_DIR / 'locale',
+    ]
+    ```
+
+2. Create migration files and apply them:
+
+    ```sh
+    python manage.py makemigrations
+    python manage.py migrate
+    ```

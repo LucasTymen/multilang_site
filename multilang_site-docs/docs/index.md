@@ -1,6 +1,13 @@
 # Multilang Site Documentation
 
-Welcome to the documentation for the Multilang Site project. This site will help you understand how to install, configure, and use the project.
+# Multilang Site Documentation
+
+Welcome to the documentation for the Multilang Site project. Use the navigation on the left to browse the sections.
+
+## Overview
+
+This project is a multilingual Django application for managing and displaying blog articles. It supports multiple languages (French, English, Italian, German, Spanish) and uses Docker for deployment.
+
 
 ## Table of Contents
 - [Installation](installation.md)
