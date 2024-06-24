@@ -1,8 +1,11 @@
+# main/views.py
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .models import Article, Comment
-from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
+from .chatbot import get_chatbot_response  # Ensure this function exists
 import openai
 from django.conf import settings
 from django.http import JsonResponse
@@ -121,5 +124,8 @@ def chatbot(request):
             max_tokens=150
         )
         response_text = response.choices[0].text.strip()
+        # Save the interaction in the database
+        interaction = ChatbotInteraction(user_question=user_message, chatbot_response=response_text)
+        interaction.save()
         return JsonResponse({"response": response_text})
     return render(request, "main/chatbot.html")

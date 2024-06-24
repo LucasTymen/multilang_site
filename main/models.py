@@ -1,7 +1,9 @@
+# main/models.py
+
 from django.db import models
 from django.contrib.auth.models import User
 
-# The categories of the articles
+# Model for article categories
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -9,7 +11,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-# The articles
+# Model for articles
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -22,7 +24,7 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-# The comments
+# Model for comments on articles
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=100)
@@ -33,10 +35,19 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.author} on {self.article}'
 
-# Configuring User profile
+# Model for user profiles
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+# Model for chatbot interactions
+class ChatbotInteraction(models.Model):
+    user_question = models.TextField()
+    chatbot_response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user_question
