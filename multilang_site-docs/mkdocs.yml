@@ -1,0 +1,12 @@
+site_name: Multilang Site Documentation
+nav:
+    - Home: index.md
+    - Installation: installation.md
+    - Configuration: configuration.md
+    - Internationalization: internationalization.md
+    - Usage: usage.md
+    - Deployment: deployment.md
+    - FAQ: faq.md
+
+theme:
+    name: material
