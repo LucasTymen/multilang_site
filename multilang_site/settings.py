@@ -1,3 +1,5 @@
+# settings.py
+
 import os
 from pathlib import Path
 from decouple import config  # Use decouple for better environment variable management
@@ -13,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Security
-SECRET_KEY = config('SECRET_KEY', default='aze"é&AZE321')
-DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Applications
 INSTALLED_APPS = [
@@ -54,7 +56,10 @@ ROOT_URLCONF = 'multilang_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',  # Django template backend
-        'DIRS': [BASE_DIR / 'templates'],  # Directories to search for templates
+        'DIRS': [
+            BASE_DIR / 'main/templates',
+            BASE_DIR / 'templates',  # Adding the main templates directory
+        ],  # Directories to search for templates
         'APP_DIRS': True,  # Look for templates in app directories
         'OPTIONS': {
             'context_processors': [
@@ -74,10 +79,10 @@ WSGI_APPLICATION = 'multilang_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  # PostgreSQL database backend
-        'NAME': config('DB_NAME', default='multilang_site_db'),  # Database name
-        'USER': config('DB_USER', default='lucas'),  # Database user
-        'PASSWORD': config('DB_PASSWORD', default='123password123'),  # Database password
-        'HOST': config('DB_HOST', default='db'),  # Database host
+        'NAME': config('DB_NAME'),  # Database name
+        'USER': config('DB_USER'),  # Database user
+        'PASSWORD': config('DB_PASSWORD'),  # Database password
+        'HOST': config('DB_HOST'),  # Database host
         'PORT': config('DB_PORT', default='5432'),  # Database port
     }
 }
@@ -123,6 +128,7 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 # Static files
 STATIC_URL = '/static/'  # URL for serving static files
 STATICFILES_DIRS = [BASE_DIR / 'static']  # Directories to search for static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory to collect static files
 
 # Media files
 MEDIA_URL = '/media/'  # URL for serving media files

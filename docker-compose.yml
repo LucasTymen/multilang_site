@@ -1,3 +1,5 @@
+# docker-compose.yml
+
 version: '3'  # Define the version of the Docker Compose file format
 
 services:
@@ -13,7 +15,7 @@ services:
 
   web:
     build: .  # Build the web service from the current directory
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # Run migrations and start the server
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # Run collectstatic, migrations, and start the server
     volumes:
       - .:/code  # Mount the current directory to /code in the container
     ports:
@@ -21,9 +23,9 @@ services:
     depends_on:
       - db  # Ensure the db service is started before the web service
     environment:
-      - DB_NAME=${POSTGRES_DB}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=db
       - DB_PORT=5432
       - SECRET_KEY=${SECRET_KEY}

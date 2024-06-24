@@ -1,58 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% load i18n %}{% trans "My Blog" %}{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">{% trans "Home" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_list' %}">{% trans "Articles" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'article_create' %}">{% trans "Create Article" %}</a>
-                        </li>
-                    </ul>
-                    <form action="{% url 'set_language' %}" method="post" class="mt-3">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.path }}">
-                        <select name="language" onchange="this.form.submit()">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% get_available_languages as LANGUAGES %}
-                            {% for lang in LANGUAGES %}
-                                <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
-                                    {{ lang.1 }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </div>
-            </nav>
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                {% block content %}
-                <!-- Articles Loop -->
-                <div class="row">
-                    {% for article in articles %}
-                        <div class="col-md-4">
-                            <h2>{{ article.title }}</h2>
-                            <p>{{ article.meta_description }}</p>
-                            <a href="{% url 'article_detail' article.slug %}">{% trans "Read more" %}</a>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% endblock %}
-            </main>
-        </div>
-    </div>
-</body>
-</html>
+{% extends 'main/base.html' %}
+{% load static i18n %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Welcome to the Blog</h1>
+    <!-- List of articles on the home page -->
+    <ul>
+        {% for article in articles %}
+        <li><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from .models import Article, Comment, Category
+from .models import Article, Comment
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from django.utils.translation import gettext as _
 import openai
 from django.conf import settings
 from django.http import JsonResponse
@@ -114,24 +113,13 @@ def delete_account(request):
 # Chatbot view
 def chatbot(request):
     if request.method == "POST":
-        # Parse the JSON request body to get the user message
         user_message = json.loads(request.body).get("message")
-
-        # Set the OpenAI API key
         openai.api_key = settings.OPENAI_API_KEY
-
-        # Make a call to the OpenAI API to get the response
         response = openai.Completion.create(
             engine="davinci",
             prompt=user_message,
             max_tokens=150
         )
-
-        # Get the text from the API response
         response_text = response.choices[0].text.strip()
-
-        # Return the response as JSON
         return JsonResponse({"response": response_text})
-
-    # Render the chatbot HTML page
     return render(request, "main/chatbot.html")
