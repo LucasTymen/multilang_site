@@ -25,4 +25,23 @@ django-allauth
 # For using Bootstrap 5 with crispy forms
 crispy-bootstrap5
 
+# For loading environment variables from a .env file
 python-dotenv
+
+# For creating project documentation using Markdown
+mkdocs==1.4.2
+
+# For using Material design theme with MkDocs
+mkdocs-material==8.5.8
+
+# For compressing and combining JavaScript and CSS files
+django-compressor
+
+# For serving static files in production
+whitenoise
+
+# For translating Django models
+django-modeltranslation
+
+# For managing translations through a web interface
+django-rosetta

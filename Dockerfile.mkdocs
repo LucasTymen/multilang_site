@@ -1,0 +1,22 @@
+# Dockerfile.mkdocs
+
+# Utiliser une image Python plus légère et sécurisée
+FROM python:3.9-alpine
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /docs
+
+# Copier le fichier des exigences dans le conteneur
+COPY requirements.txt /docs/
+
+# Installer MkDocs et les dépendances
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le contenu actuel dans le conteneur à /docs
+COPY . /docs/
+
+# Rendre le port 8001 accessible à l'extérieur du conteneur
+EXPOSE 8001
+
+# Exécuter le serveur mkdocs
+CMD ["mkdocs", "serve", "--dev-addr=0.0.0.0:8001"]

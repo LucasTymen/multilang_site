@@ -180,3 +180,160 @@ ul.nav.flex-column li.nav-item a.nav-link:hover {
   color: white;
 }
 /* end of style for the catbot */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* Colors */
+:root {
+    --primary-color: #003366; /* Dark blue */
+    --secondary-color: #0098db; /* Light blue */
+    --accent-color: #f79c00; /* Orange */
+    --background-color: #ffffff; /* White */
+    --text-color: #333333; /* Dark grey */
+    --border-color: #e0e0e0; /* Light grey */
+}
+
+/* General Styles */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Buttons */
+button, .btn {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Cards */
+.card {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.card-content {
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: var(--background-color);
+    text-decoration: none;
+    padding: 10px;
+}
+
+.navbar a:hover {
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 20px;
+    text-align: center;
+}
+
+.footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar a {
+        padding: 8px;
+    }
+
+    .card {
+        margin: 10px 0;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.6em;
+    }
+}
+
+/* Additional Styles for better alignment and spacing */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.col {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.text-center {
+    text-align: center;
+}

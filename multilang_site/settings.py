@@ -1,6 +1,5 @@
-# settings.py
-
 import os
+import sys  # Import sys to use command-line arguments
 from pathlib import Path
 from decouple import config  # Use decouple for better environment variable management
 from dotenv import load_dotenv
@@ -15,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Security
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+SECRET_KEY = config('SECRET_KEY')  # Secret key for the Django application
+DEBUG = config('DEBUG', default=False, cast=bool)  # Debug mode (should be False in production)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')  # Hosts/domain names that are valid for this site
 
 # Applications
 INSTALLED_APPS = [
@@ -34,11 +33,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',  # Social account management for allauth
     'crispy_forms',  # Crispy forms for better form rendering
     'crispy_bootstrap5',  # Crispy forms template pack for Bootstrap 5
+    'compressor',  # For compressing and combining JavaScript and CSS files
+    'modeltranslation',  # For translating Django models
+    'rosetta',  # For managing translations through a web interface
 ]
 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',  # Security middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For serving static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',  # Session middleware
     'django.middleware.locale.LocaleMiddleware',  # Locale middleware for internationalization
     'django.middleware.common.CommonMiddleware',  # Common middleware
@@ -76,16 +79,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'multilang_site.wsgi.application'
 
 # Database configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # PostgreSQL database backend
-        'NAME': config('DB_NAME'),  # Database name
-        'USER': config('DB_USER'),  # Database user
-        'PASSWORD': config('DB_PASSWORD'),  # Database password
-        'HOST': config('DB_HOST'),  # Database host
-        'PORT': config('DB_PORT', default='5432'),  # Database port
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',  # PostgreSQL database backend
+            'NAME': config('DB_NAME'),  # Database name
+            'USER': config('DB_USER'),  # Database user
+            'PASSWORD': config('DB_PASSWORD'),  # Database password
+            'HOST': config('DB_HOST'),  # Database host
+            'PORT': config('DB_PORT', default='5432'),  # Database port
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

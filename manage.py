@@ -3,9 +3,11 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
+    # Ajout du répertoire 'main' au chemin de recherche Python
+    sys.path.append(os.path.join(os.path.dirname(__file__), 'main'))
+
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'multilang_site.settings')
     try:
         from django.core.management import execute_from_command_line
@@ -16,7 +18,6 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
 
 if __name__ == '__main__':
     main()

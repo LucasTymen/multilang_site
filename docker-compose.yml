@@ -1,27 +1,25 @@
-# docker-compose.yml
-
-version: '3'  # Define the version of the Docker Compose file format
+version: '3'  # Définir la version du format de fichier Docker Compose
 
 services:
   db:
-    image: postgres:13  # Use the official PostgreSQL image
-    restart: always  # Always restart the container if it stops
+    image: postgres:13  # Utiliser l'image officielle de PostgreSQL
+    restart: always  # Toujours redémarrer le conteneur s'il s'arrête
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Persist database data
+      - postgres_data:/var/lib/postgresql/data  # Conserver les données de la base de données
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}  # Database name from .env
-      POSTGRES_USER: ${POSTGRES_USER}  # Database user from .env
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Database password from .env
+      POSTGRES_DB: ${POSTGRES_DB}  # Nom de la base de données à partir de .env
+      POSTGRES_USER: ${POSTGRES_USER}  # Utilisateur de la base de données à partir de .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Mot de passe de la base de données à partir de .env
 
   web:
-    build: .  # Build the web service from the current directory
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # Run collectstatic, migrations, and start the server
+    build: .  # Construire le service web à partir du répertoire actuel
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # Exécuter collectstatic, les migrations et démarrer le serveur
     volumes:
-      - .:/code  # Mount the current directory to /code in the container
+      - .:/code  # Monter le répertoire actuel sur /code dans le conteneur
     ports:
-      - "8000:8000"  # Expose port 8000
+      - "8000:8000"  # Exposer le port 8000
     depends_on:
-      - db  # Ensure the db service is started before the web service
+      - db  # S'assurer que le service db est démarré avant le service web
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -33,5 +31,15 @@ services:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
 
+  mkdocs:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkdocs  # Utiliser le Dockerfile.mkdocs pour construire le service mkdocs
+    ports:
+      - "8001:8001"  # Exposer le port 8001 pour mkdocs
+    volumes:
+      - .:/docs  # Monter le répertoire actuel sur /docs dans le conteneur
+    command: mkdocs serve --dev-addr=0.0.0.0:8001  # Exécuter le serveur mkdocs
+
 volumes:
-  postgres_data:  # Define a named volume for persisting PostgreSQL data
+  postgres_data:  # Définir un volume nommé pour conserver les données de PostgreSQL
