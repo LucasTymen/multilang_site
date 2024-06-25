@@ -1,3 +1,11 @@
+# Flask web framework for building the chatbot server
 Flask
+
+# For integrating OpenAI's GPT-3 model, useful for AI-driven functionalities
 openai
+
+# For loading environment variables from a .env file
 python-dotenv
+
+# Production Unix server
+gunicorn

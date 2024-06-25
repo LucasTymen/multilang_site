@@ -134,3 +134,53 @@ def chatbot(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+# main/views.py
+
+import json
+import logging
+import traceback
+import requests
+from django.http import JsonResponse
+from django.conf import settings
+
+# Configure logger
+logger = logging.getLogger(__name__)
+
+def chatbot(request):
+    if request.method == "POST":
+        user_message = json.loads(request.body).get("message")
+        try:
+            response = requests.post(
+                "http://flask:8003/chatbot",
+                json={"message": user_message},
+                headers={"Content-Type": "application/json"}
+            )
+            response_json = response.json()
+            if response.status_code == 200:
+                response_text = response_json.get("response")
+                return JsonResponse({"response": response_text})
+            else:
+                return JsonResponse({"error": response_json.get("error")}, status=response.status_code)
+        except Exception as e:
+            logger.error("Error: %s", e)
+            logger.error("Traceback: %s", traceback.format_exc())
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+# settings.py
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}

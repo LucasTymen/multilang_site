@@ -1,42 +1,54 @@
-version: '3.8'
+version: '3'
 
 services:
+  # PostgreSQL database service
   db:
     image: postgres:13
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}           # Name of the PostgreSQL database
+      POSTGRES_USER: ${POSTGRES_USER}       # PostgreSQL user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # PostgreSQL password
+    ports:
+      - "5432:5432"                         # Expose PostgreSQL on port 5432
 
+  # Django web service
   web:
     build: .
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - .:/code                            # Mount the current directory to /code in the container
     ports:
-      - "8000:8000"
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - "8000:8000"                        # Expose Django on port 8000
     depends_on:
-      - db
+      - db                                 # Ensure the database service is started before this service
+      - flask                              # Ensure the Flask service is started before this service
+    environment:
+      - DB_NAME=${DB_NAME}                 # Django database name
+      - DB_USER=${DB_USER}                 # Django database user
+      - DB_PASSWORD=${DB_PASSWORD}         # Django database password
+      - DB_HOST=db                         # Database host, pointing to the 'db' service
+      - DB_PORT=5432                       # Database port
+      - OPENAI_API_KEY=${OPENAI_API_KEY}   # OpenAI API key for integration
 
+  # MkDocs service for documentation
+  mkdocs:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkdocs        # Use Dockerfile.mkdocs for building this service
+    command: mkdocs serve --dev-addr=0.0.0.0:8001
+    volumes:
+      - .:/docs                           # Mount the current directory to /docs in the container
+    ports:
+      - "8001:8001"                       # Expose MkDocs on port 8001
+
+  # Flask service for OpenAI chatbot
   flask:
     build:
-      context: ./flask
-    command: flask run --host=0.0.0.0
+      context: ./openai_server            # Use the Dockerfile in the openai_server directory
+    command: gunicorn --bind 0.0.0.0:8003 app:app
     volumes:
-      - ./flask:/app
+      - ./openai_server:/app              # Mount the openai_server directory to /app in the container
     ports:
-      - "5000:5000"
+      - "8003:8003"                       # Expose Flask on port 8003
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-
-volumes:
-  postgres_data:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}  # OpenAI API key for integration
