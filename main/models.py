@@ -3,7 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Model for article categories
+# The categories of the articles
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -11,7 +11,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-# Model for articles
+# The articles
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -24,7 +24,7 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-# Model for comments on articles
+# The comments
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=100)
@@ -35,7 +35,7 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.author} on {self.article}'
 
-# Model for user profiles
+# Configuring User profile
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
@@ -43,7 +43,7 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-# Model for chatbot interactions
+# Chatbot Interaction model
 class ChatbotInteraction(models.Model):
     user_question = models.TextField()
     chatbot_response = models.TextField()

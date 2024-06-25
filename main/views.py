@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .models import Article, Comment, ChatbotInteraction
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
-from .chatbot import get_chatbot_response  # Ensure this function exists
+from .chatbot import get_chatbot_response
 import openai
 from django.conf import settings
 from django.http import JsonResponse

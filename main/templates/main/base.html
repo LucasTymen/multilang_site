@@ -8,9 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/chatbot.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -82,7 +81,7 @@
             <input type="text" id="message" placeholder="{% trans 'Ask me anything...' %}" required>
             <button type="submit" id="send-btn">{% trans "Send" %}</button>
         </form>
-        <div id="chat-response"></div>
+        <div id="chat-response" style="height: 400px; overflow-y: scroll;"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
