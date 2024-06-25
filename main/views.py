@@ -1,15 +1,17 @@
-# main/views.py
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .models import Article, Comment, ChatbotInteraction
-from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
-from .chatbot import get_chatbot_response
-import openai
+from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.conf import settings
 from django.http import JsonResponse
 import json
+import logging
+import traceback
+import requests
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 # Home page view
 def home(request):
@@ -117,15 +119,18 @@ def delete_account(request):
 def chatbot(request):
     if request.method == "POST":
         user_message = json.loads(request.body).get("message")
-        openai.api_key = settings.OPENAI_API_KEY
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=user_message,
-            max_tokens=150
-        )
-        response_text = response.choices[0].text.strip()
-        # Save the interaction in the database
-        interaction = ChatbotInteraction(user_question=user_message, chatbot_response=response_text)
-        interaction.save()
-        return JsonResponse({"response": response_text})
-    return render(request, "main/chatbot.html")
+        try:
+            response = requests.post(
+                "http://flask:5000/chatbot",
+                json={"message": user_message},
+                headers={"Content-Type": "application/json"}
+            )
+            response_json = response.json()
+            if response.status_code == 200:
+                response_text = response_json.get("response")
+                return JsonResponse({"response": response_text})
+            else:
+                return JsonResponse({"error": response_json.get("error")}, status=response.status_code)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)

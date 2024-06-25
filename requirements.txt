@@ -6,7 +6,6 @@ Pillow
 
 # For integrating OpenAI's GPT-3 model, useful for AI-driven functionalities
 openai
-
 # For improved form rendering, providing better UI components for forms
 django-crispy-forms
 
@@ -45,3 +44,6 @@ django-modeltranslation
 
 # For managing translations through a web interface
 django-rosetta
+
+# dockerizing the chatbot response to a dedicated server
+Flask
