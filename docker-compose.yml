@@ -1,3 +1,5 @@
+# Path: /path/to/your/project/docker-compose.yml
+
 version: '3'
 
 services:
@@ -21,7 +23,7 @@ services:
       - "8000:8000"                        # Expose Django on port 8000
     depends_on:
       - db                                 # Ensure the database service is started before this service
-      - flask                              # Ensure the Flask service is started before this service
+      - openai_server                      # Ensure the openai_server service is started before this service
     environment:
       - DB_NAME=${DB_NAME}                 # Django database name
       - DB_USER=${DB_USER}                 # Django database user
@@ -29,6 +31,7 @@ services:
       - DB_HOST=db                         # Database host, pointing to the 'db' service
       - DB_PORT=5432                       # Database port
       - OPENAI_API_KEY=${OPENAI_API_KEY}   # OpenAI API key for integration
+    restart: always                        # Restart policy to ensure the container restarts if it stops
 
   # MkDocs service for documentation
   mkdocs:
@@ -41,14 +44,15 @@ services:
     ports:
       - "8001:8001"                       # Expose MkDocs on port 8001
 
-  # Flask service for OpenAI chatbot
-  flask:
+  # Simple HTTP server for OpenAI chatbot
+  openai_server:
     build:
       context: ./openai_server            # Use the Dockerfile in the openai_server directory
-    command: gunicorn --bind 0.0.0.0:8003 app:app
-    volumes:
-      - ./openai_server:/app              # Mount the openai_server directory to /app in the container
     ports:
-      - "8003:8003"                       # Expose Flask on port 8003
+      - "8003:8003"                       # Expose the server on port 8003
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}  # OpenAI API key for integration
+    restart: always                       # Restart policy to ensure the container restarts if it stops
+
+networks:
+  default:

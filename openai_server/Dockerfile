@@ -16,5 +16,5 @@ COPY . /app/
 # Make port 8003 available to the world outside this container
 EXPOSE 8003
 
-# Run the Flask app with Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8003", "app:app"]
+# Run the server
+CMD ["python", "server.py"]

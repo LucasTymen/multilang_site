@@ -41,6 +41,6 @@ urlpatterns = [
     # Route for deleting user account
     path('delete_account/', views.delete_account, name='delete_account'),
 
-    # Route for the chatbot
+    # the chatbot view
     path('chatbot/', views.chatbot, name='chatbot'),
 ]

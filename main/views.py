@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from .models import Article, Comment, ChatbotInteraction
+from .models import Article, Comment
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 import json
 import logging
 import traceback
@@ -117,70 +117,23 @@ def delete_account(request):
 
 # Chatbot view
 def chatbot(request):
-    if request.method == "POST":
-        user_message = json.loads(request.body).get("message")
+    if request.method == 'POST':
+        user_message = request.POST.get('message')
+        if not user_message:
+            return HttpResponseBadRequest("No message provided")
+
         try:
             response = requests.post(
-                "http://flask:5000/chatbot",
-                json={"message": user_message},
-                headers={"Content-Type": "application/json"}
+                'http://openai_server:8003/chatbot',
+                json={'message': user_message},
+                headers={'Content-Type': 'application/json'}
             )
             response_json = response.json()
-            if response.status_code == 200:
-                response_text = response_json.get("response")
-                return JsonResponse({"response": response_text})
-            else:
-                return JsonResponse({"error": response_json.get("error")}, status=response.status_code)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
-# main/views.py
-
-import json
-import logging
-import traceback
-import requests
-from django.http import JsonResponse
-from django.conf import settings
-
-# Configure logger
-logger = logging.getLogger(__name__)
-
-def chatbot(request):
-    if request.method == "POST":
-        user_message = json.loads(request.body).get("message")
-        try:
-            response = requests.post(
-                "http://flask:8003/chatbot",
-                json={"message": user_message},
-                headers={"Content-Type": "application/json"}
-            )
-            response_json = response.json()
-            if response.status_code == 200:
-                response_text = response_json.get("response")
-                return JsonResponse({"response": response_text})
-            else:
-                return JsonResponse({"error": response_json.get("error")}, status=response.status_code)
-        except Exception as e:
+            chatbot_response = response_json.get('response')
+        except requests.exceptions.RequestException as e:
             logger.error("Error: %s", e)
             logger.error("Traceback: %s", traceback.format_exc())
-            return JsonResponse({"error": str(e)}, status=500)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
+            return JsonResponse({'error': str(e)}, status=500)
 
-# settings.py
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
-}
+        return render(request, 'main/chatbot_response.html', {'chatbot_response': chatbot_response, 'user_message': user_message})
+    return render(request, 'main/chatbot_form.html')
