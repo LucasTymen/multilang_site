@@ -4,12 +4,14 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Welcome to the Blog</h1>
+    <h1 class="card-title">Welcome to the Blog</h1>
     <!-- List of articles on the home page -->
-    <ul>
+    <div class="article-list">
         {% for article in articles %}
-        <li><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></li>
+        <div class="listin__item article-card">
+            <h2><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h2>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
