@@ -1,16 +1,26 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Register{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Register"> Register
-        </button>
-    </form>
+    <div class="card listin__item">
+        <div class="card-body">
+            <h1 class="card-title">Register</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <img src="{% static 'main/media/register-icon.svg' %}" alt="Register"> Register
+                </button>
+                <a href="{% url 'login' %}" class="btn btn-secondary">
+                    <img src="{% static 'main/media/cancel-icon.svg' %}" alt="Cancel"> Cancel
+                </a>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -135,7 +135,6 @@ def chatbot(request):
             print(e.__cause__)  # an underlying Exception, likely raised within httpx.
         except openai.RateLimitError as e:
             print("A 429 status code was received; we should back off a bit.")
-            # return JsonResponse({e.status_code: e.response})
         except openai.APIStatusError as e:
             print("Another non-200-range status code was received")
             print(e.status_code)

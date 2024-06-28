@@ -1,23 +1,24 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
-{% block title %}Profile{% endblock %}
+
+{% block title %}Logout{% endblock %}
 
 {% block content %}
-    <h1>Profile</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ u_form.as_p }}
-        {{ p_form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/porte-monnaie.svg' %}" alt="Update"> Update Profile
-        </button>
-    </form>
-
-    <h2>Delete Account</h2>
-    <form method="post" action="{% url 'delete_account' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">
-            <img src="{% static 'main/media/calendrier-xmark.svg' %}" alt="Delete"> Delete Account
-        </button>
-    </form>
+<div class="container mt-4">
+    <div class="card listin__item">
+        <div class="card-body">
+            <h1 class="card-title">Logout</h1>
+            <p>Are you sure you want to log out?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">
+                    <img src="{% static 'main/media/logout-icon.svg' %}" alt="Logout"> Yes, log me out
+                </button>
+                <a href="{% url 'home' %}" class="btn btn-secondary">
+                    <img src="{% static 'main/media/cancel-icon.svg' %}" alt="Cancel"> Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

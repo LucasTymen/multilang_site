@@ -49,9 +49,9 @@ Ce projet est une application Django multilingue permettant de gérer et d'affic
     DB_HOST=db
     DB_PORT=5432
 
-    OPENAI_API_KEY=sk-bD4j9kAtYAm0rc3Ay2DNT3BlbkFJr27DBAFT3z6sBePQFQx
+    OPENAI_API_KEY= use your own key
 
-    DEBUG=True
+    DEBUG=False
     ALLOWED_HOSTS=127.0.0.1,localhost
     SECRET_KEY=aze"é&AZE321
     ```

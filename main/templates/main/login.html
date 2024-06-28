@@ -1,16 +1,25 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Login{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/verrouiller.svg' %}" alt="Login"> Login
-        </button>
-    </form>
+    <div class="card listin__item">
+        <div class="card-body">
+            <h1 class="card-title">Login</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    <img src="{% static 'main/media/login-icon.svg' %}" alt="Login"> Login
+                </button>
+            </form>
+            <div class="mt-3">
+                <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a>
+                <a href="{% url 'register' %}" class="btn btn-link">Don't have an account? Register</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
