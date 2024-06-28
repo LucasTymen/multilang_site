@@ -4,24 +4,22 @@
 {% block title %}{% if form.instance.pk %}Edit Article{% else %}Create Article{% endif %}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
+    <div class="container">
+        <div class="listin__item card">
             <h1 class="card-title">{% if form.instance.pk %}Edit Article{% else %}Create Article{% endif %}</h1>
-        </div>
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">
-                    {% if form.instance.pk %}
-                        <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Update" class="icon"> Update
-                    {% else %}
-                        <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Create" class="icon"> Create
-                    {% endif %}
-                </button>
-            </form>
+            <div class="card-content">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">
+                        {% if form.instance.pk %}
+                            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Update"> Update
+                        {% else %}
+                            <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Create"> Create
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
