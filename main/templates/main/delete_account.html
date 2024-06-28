@@ -1,15 +1,19 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Delete Account{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Delete Account</h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">
-            <img src="{% static 'main/media/calendrier-xmark.svg' %}" alt="Delete"> Confirm Deletion
-        </button>
-    </form>
+<div class="container">
+    <div class="listin__item">
+        <h1>Delete Account</h1>
+        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete Account
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}

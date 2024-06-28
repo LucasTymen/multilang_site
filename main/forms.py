@@ -1,5 +1,3 @@
-# main/forms.py
-
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -12,6 +10,12 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username.lower() == 'admin':
+            raise forms.ValidationError("This username is reserved and cannot be used.")
+        return username
 
 # Form for updating user information
 class UserUpdateForm(forms.ModelForm):

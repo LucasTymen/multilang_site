@@ -4,54 +4,42 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="listin__item card">
-            <h1 class="card-title">{{ article.title }}</h1>
-            <div class="card-content">
-                <p>{{ article.content }}</p>
-                <p>{{ article.publication_date }}</p>
-                <p>{{ article.author.username }}</p>
-            </div>
-        </div>
+<div class="container">
+    <div class="listin__item">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.content }}</p>
+        <p>{{ article.publication_date }}</p>
+        <p>{{ article.author.username }}</p>
 
-        <div class="listin__item card">
-            <h2 class="card-title">Comments</h2>
-            <div class="card-content">
-                <ul>
-                    {% for comment in comments %}
-                    <li>
-                        {{ comment.author }}: {{ comment.content }} on {{ comment.publication_date }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in comments %}
+            <li>
+                {{ comment.author }}: {{ comment.content }} on {{ comment.publication_date }}
+            </li>
+            {% endfor %}
+        </ul>
 
-        <div class="listin__item card">
-            <h3 class="card-title">Add a comment</h3>
-            <div class="card-content">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">
-                        <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Submit"> Submit
-                    </button>
-                </form>
-            </div>
-        </div>
+        <h3>Add a comment</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">
+                <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Submit"> Submit
+            </button>
+        </form>
 
         {% if user.is_authenticated and user == article.author %}
-            <div class="listin__item card">
-                <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
-                    <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
-                </a>
-                <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
-                    </button>
-                </form>
-            </div>
+        <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
+            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
+        </a>
+        <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
+            </button>
+        </form>
         {% endif %}
     </div>
+</div>
 {% endblock %}

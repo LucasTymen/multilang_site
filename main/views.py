@@ -1,17 +1,22 @@
-# main/views.py
-
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import Group
 from .models import Article, Comment, ChatbotInteraction
-from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
-from .chatbot import get_chatbot_response
+from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 import openai
 import os
-from openai import OpenAI
-from django.conf import settings
 from django.http import JsonResponse
 import json
+
+# Function to check if user belongs to a specific group
+def group_required(group_name):
+    def in_group(u):
+        if u.is_authenticated:
+            if bool(u.groups.filter(name=group_name)) | u.is_superuser:
+                return True
+        return False
+    return user_passes_test(in_group)
 
 # Home page view
 def home(request):
@@ -40,6 +45,7 @@ def article_detail(request, slug):
 
 # Create an article
 @login_required
+@group_required('Administrateur')
 def article_create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -87,6 +93,11 @@ def register(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+
+            # Add user to "Visiteur" group
+            group = Group.objects.get(name='Visiteur')
+            user.groups.add(group)
+
             return redirect('article_list')
     else:
         form = UserRegisterForm()
@@ -118,30 +129,31 @@ def delete_account(request):
 # Chatbot view
 def chatbot(request):
     if request.method == "POST":
-        answer_text = "An error occurred. Please try again later."
         user_message = json.loads(request.body).get("message")
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        answer_text = "An error occurred. Please try again later."
         try:
             answer = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-                    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+                    {"role": "user", "content": user_message}
                 ]
             )
-            answer_text = answer.choices[0].text.strip()
-        except openai.APIConnectionError as e:
-            print("The server could not be reached")
-            print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-        except openai.RateLimitError as e:
-            print("A 429 status code was received; we should back off a bit.")
-            # return JsonResponse({e.status_code: e.response})
-        except openai.APIStatusError as e:
-            print("Another non-200-range status code was received")
-            print(e.status_code)
-            print(e.response)
+            answer_text = answer.choices[0].message['content'].strip()
+        except openai.error.OpenAIError as e:
+            answer_text = str(e)
         # Save the interaction in the database
-        # interaction = ChatbotInteraction(user_question=user_message, chatbot_response=answer_text)
-        # interaction.save()
+        interaction = ChatbotInteraction(user_question=user_message, chatbot_response=answer_text)
+        interaction.save()
         return JsonResponse({"answer": answer_text})
     return render(request, "main/chatbot.html")
+
+# Search view
+def search(request):
+    if 'q' in request.GET:
+        query = request.GET['q']
+        articles = Article.objects.filter(title__icontains=query)
+    else:
+        articles = Article.objects.all()
+    return render(request, 'main/search.html', {'articles': articles})

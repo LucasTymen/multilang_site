@@ -1,16 +1,17 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Register"> Register
-        </button>
-    </form>
+<div class="container">
+    <div class="listin__item">
+        <h1>Register</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

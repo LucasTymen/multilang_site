@@ -1,25 +1,18 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Profile</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ u_form.as_p }}
-        {{ p_form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/porte-monnaie.svg' %}" alt="Update"> Update Profile
-        </button>
-    </form>
-
-    <h2>Delete Account</h2>
-    <form method="post" action="{% url 'delete_account' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">
-            <img src="{% static 'main/media/calendrier-xmark.svg' %}" alt="Delete"> Delete Account
-        </button>
-    </form>
+<div class="container">
+    <div class="listin__item">
+        <h1>Profile</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ u_form.as_p }}
+            {{ p_form.as_p }}
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

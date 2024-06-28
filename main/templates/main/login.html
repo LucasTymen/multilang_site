@@ -1,16 +1,17 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">
-            <img src="{% static 'main/media/verrouiller.svg' %}" alt="Login"> Login
-        </button>
-    </form>
+<div class="container">
+    <div class="listin__item">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

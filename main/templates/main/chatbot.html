@@ -1,52 +1,41 @@
-<!-- main/templates/main/chatbot.html -->
-
 {% extends 'main/base.html' %}
 {% load static i18n %}
 
 {% block title %}Chatbot{% endblock %}
 
 {% block content %}
-<div id="main-content">
-    <h1>Welcome to the Chatbot Page</h1>
-    <button onclick="openChat()">Open Chatbot</button>
+<div class="container">
+    <div class="listin__item">
+        <h1>Chatbot</h1>
+        <div id="chatbox">
+            <div id="chat-messages"></div>
+            <form id="chat-form">
+                {% csrf_token %}
+                <input type="text" id="chat-input" placeholder="Type your message here..." class="form-control"/>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
 </div>
-
-<div id="chatbotSidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeChat()">&times;</a>
-    <form id="chat-form">
-        <input type="text" id="message" placeholder="Ask me anything..." required>
-        <button type="submit" id="send-btn">Send</button>
-    </form>
-    <div id="chat-response" style="height: 400px; overflow-y: scroll;"></div>
-</div>
-
 <script>
-    function openChat() {
-        document.getElementById("chatbotSidebar").style.width = "300px";
-    }
-
-    function closeChat() {
-        document.getElementById("chatbotSidebar").style.width = "0";
-    }
-
-    document.getElementById('chat-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const message = document.getElementById('message').value;
+    document.getElementById('chat-form').onsubmit = function(event) {
+        event.preventDefault();
+        let input = document.getElementById('chat-input');
+        let message = input.value;
+        input.value = '';
         fetch("{% url 'chatbot' %}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                "X-CSRFToken": "{{ csrf_token }}"
             },
             body: JSON.stringify({ message: message })
         })
         .then(response => response.json())
         .then(data => {
-            const chatResponse = document.getElementById('chat-response');
-            chatResponse.innerText = data.response;
-            chatResponse.style.display = 'block';
-            document.getElementById('message').value = '';
+            let chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML += '<div>' + data.answer + '</div>';
         });
-    });
+    };
 </script>
 {% endblock %}

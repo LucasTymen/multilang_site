@@ -1,25 +1,26 @@
-version: '3'  # Définir la version du format de fichier Docker Compose
+version: '3'
 
 services:
   db:
-    image: postgres:13  # Utiliser l'image officielle de PostgreSQL
-    restart: always  # Toujours redémarrer le conteneur s'il s'arrête
+    image: postgres:13
+    restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Conserver les données de la base de données
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}  # Nom de la base de données à partir de .env
-      POSTGRES_USER: ${POSTGRES_USER}  # Utilisateur de la base de données à partir de .env
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Mot de passe de la base de données à partir de .env
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   web:
-    build: .  # Construire le service web à partir du répertoire actuel
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # Exécuter collectstatic, les migrations et démarrer le serveur
+    build: .
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code  # Monter le répertoire actuel sur /code dans le conteneur
+      - .:/code
     ports:
-      - "8000:8000"  # Exposer le port 8000
+      - "8000:8000"
     depends_on:
-      - db  # S'assurer que le service db est démarré avant le service web
+      - db
+      - openai_server
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -30,34 +31,29 @@ services:
       - DEBUG=${DEBUG}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-
-  chatbot:
-    build: .  # Construire le service web à partir du répertoire actuel
-    command: sh -c "python simple_chatbot_server.py"  # Exécuter simple_chatbot_server
-    volumes:
-      - .:/code  # Monter le répertoire actuel sur /code dans le conteneur
-    ports:
-      - "9000:9000"  # Exposer le port 8000
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=db
-      - DB_PORT=5432
-      - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=${DEBUG}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: always
 
   mkdocs:
     build:
       context: .
-      dockerfile: Dockerfile.mkdocs  # Utiliser le Dockerfile.mkdocs pour construire le service mkdocs
+      dockerfile: Dockerfile.mkdocs
     ports:
-      - "8001:8001"  # Exposer le port 8001 pour mkdocs
+      - "8001:8001"
     volumes:
-      - .:/docs  # Monter le répertoire actuel sur /docs dans le conteneur
-    command: mkdocs serve --dev-addr=0.0.0.0:8001  # Exécuter le serveur mkdocs
+      - .:/docs
+    command: mkdocs serve --dev-addr=0.0.0.0:8001
+
+  openai_server:
+    build:
+      context: ./openai_server
+    command: sh -c "python manage.py runserver 0.0.0.0:8003"
+    ports:
+      - "8003:8003"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - default
+    restart: always
 
 volumes:
-  postgres_data:  # Définir un volume nommé pour conserver les données de PostgreSQL
+  postgres_data:

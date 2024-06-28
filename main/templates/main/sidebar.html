@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% load i18n %}
-<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+<nav class="col-md-3 col-lg-2 d-md-block sidebar">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <!-- Home -->
@@ -34,6 +34,10 @@
                 <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Signup" %}</a>
             </li>
             {% endif %}
+            <!-- Search -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'search' %}">{% trans "Search" %}</a>
+            </li>
             <!-- Language Switcher -->
             <li class="nav-item mt-3">
                 <form action="{% url 'set_language' %}" method="post">

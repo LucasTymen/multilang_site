@@ -1,34 +1,17 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
+
 {% block title %}Search{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Search</h1>
-    <form id="search-form">
-        {% csrf_token %}
-        <input type="text" id="query" placeholder="Search for...">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-    <div id="search-response" class="mt-3"></div>
+<div class="container">
+    <div class="listin__item">
+        <h1>Search Results</h1>
+        <ul>
+            {% for article in articles %}
+            <li><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-
-<script>
-    document.getElementById('search-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const query = document.getElementById('query').value;
-        fetch("{% url 'search' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            body: JSON.stringify({ query: query })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('search-response').innerText = data.response;
-        });
-    });
-</script>
 {% endblock %}
