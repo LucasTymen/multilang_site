@@ -21,9 +21,12 @@
                 <a href="/" class="list-group-item list-group-item-action bg-light">{% trans "Home" %}</a>
                 <a href="{% url 'article_list' %}" class="list-group-item list-group-item-action bg-light">{% trans "Articles" %}</a>
                 <a href="{% url 'article_create' %}" class="list-group-item list-group-item-action bg-light">{% trans "Create Article" %}</a>
+                <a href="{% url 'search' %}" class="list-group-item list-group-item-action bg-light">{% trans "Search" %}</a>
+                <a href="{% url 'chatbot' %}" class="list-group-item list-group-item-action bg-light">{% trans "Chatbot" %}</a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}" class="list-group-item list-group-item-action bg-light">{% trans "Profile" %}</a>
                 <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-light">{% trans "Logout" %}</a>
+                <a href="{% url 'delete_account' %}" class="list-group-item list-group-item-action bg-light">{% trans "Delete Account" %}</a>
                 {% else %}
                 <a href="{% url 'login' %}" class="list-group-item list-group-item-action bg-light">{% trans "Login" %}</a>
                 <a href="{% url 'register' %}" class="list-group-item list-group-item-action bg-light">{% trans "Signup" %}</a>

@@ -368,10 +368,13 @@ ul.nav.flex-column li.nav-item a.nav-link:hover {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width:100%;
   height: 100%;
   z-index: -200;
-  overflow: hidden;
+  overflow: visible;
+    overflow-x: visible;
+    overflow-y: visible;
+  zoom: 152%;
 }
 
 .video-foreground {
@@ -401,6 +404,7 @@ ul.nav.flex-column li.nav-item a.nav-link:hover {
   background: rgba(255, 255, 255, 0); /* Transparent overlay */
   z-index: -199;
 }
+
 
 /* Ensure that links and other interactive elements remain clickable */
 .container, .container * {

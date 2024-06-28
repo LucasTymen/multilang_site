@@ -4,20 +4,19 @@
 {% block title %}Articles{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Articles</h1>
-    <div class="row">
-        {% for article in articles %}
-        <div class="col-md-4 mb-4">
-            <div class="card listin__item">
-                <div class="card-body">
-                    <h2 class="card-title">{{ article.title }}</h2>
-                    <p class="card-text">{{ article.summary }}</p>
-                    <a href="{% url 'article_detail' article.slug %}" class="btn btn-primary">Read More</a>
-                </div>
-            </div>
+<div class="container">
+    <div class="listin__item card">
+        <h1 class="card-title">Articles</h1>
+        <div class="card-content">
+            <ul>
+                {% for article in articles %}
+                <li>
+                    <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
+                    <p>{{ article.meta_description }}</p>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

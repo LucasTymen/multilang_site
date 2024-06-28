@@ -1,47 +1,17 @@
-# The Django framework, specifying the version to ensure compatibility
 Django>=4.2.5
-
-# For handling image fields in models, allowing image uploads and processing
 Pillow
-
-# For integrating OpenAI's GPT-3 model, useful for AI-driven functionalities
 openai
-
-# For improved form rendering, providing better UI components for forms
 django-crispy-forms
-
-# For PostgreSQL database connectivity
 psycopg2-binary
-
-# For environment variables management, making it easier to handle sensitive data and configurations
 python-decouple
-
-# For parsing database URLs, useful in deploying to different environments with different database configurations
 dj-database-url
-
-# For handling authentication in Django applications, providing login, registration, and social authentication features
 django-allauth
-
-# For using Bootstrap 5 with crispy forms
 crispy-bootstrap5
-
-# For loading environment variables from a .env file
 python-dotenv
-
-# For creating project documentation using Markdown
 mkdocs==1.4.2
-
-# For using Material design theme with MkDocs
 mkdocs-material==8.5.8
-
-# For compressing and combining JavaScript and CSS files
 django-compressor
-
-# For serving static files in production
 whitenoise
-
-# For translating Django models
 django-modeltranslation
-
-# For managing translations through a web interface
 django-rosetta
+idna==3.3

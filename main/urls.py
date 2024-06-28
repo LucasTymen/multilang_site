@@ -1,3 +1,5 @@
+# main/urls.py
+
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
@@ -43,4 +45,7 @@ urlpatterns = [
 
     # Route for the chatbot
     path('chatbot/', views.chatbot, name='chatbot'),
+
+    # Route for search page
+    path('search/', views.search, name='search'),
 ]
