@@ -45,7 +45,7 @@ backward compatibility:
 .ui-tabs .ui-tabs-nav li.required { font-weight: bold; }
 .ui-tabs .ui-tabs-nav li a {
     border: 1px solid #CCCCCC;
-    background: #eeeeee repeat-x;
+    background-color: #f8f9fa4a; repeat-x;
     border-bottom-width: 0;
     color: #666666;
     padding: 4px 10px 4px 10px;

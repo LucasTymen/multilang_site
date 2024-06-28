@@ -3,7 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="video-background">
+    <div class="video-foreground">
+        <iframe src="https://www.youtube.com/embed/pUWCnazcsbU?autoplay=1&mute=1&loop=1&playlist=pUWCnazcsbU&start=120" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="video-overlay"></div>
+</div>
+
+<div class="container mt-4" style="position: relative; z-index: 1;">
     <h1 class="card-title">Welcome to the Blog</h1>
     <!-- List of articles on the home page -->
     <div class="article-list">
