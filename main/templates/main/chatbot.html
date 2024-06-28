@@ -1,41 +1,55 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
 
-{% block title %}Chatbot{% endblock %}
+{% block title %}{% trans "Chatbot" %}{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="listin__item">
-        <h1>Chatbot</h1>
-        <div id="chatbox">
-            <div id="chat-messages"></div>
-            <form id="chat-form">
-                {% csrf_token %}
-                <input type="text" id="chat-input" placeholder="Type your message here..." class="form-control"/>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        </div>
+        <h1>{% trans "Chatbot" %}</h1>
+
+        <!-- Chatbot interaction area -->
+        <div id="chat-response" class="chat-response listin__item"></div>
+
+        <h3>{% trans "Ask the Chatbot" %}</h3>
+        <form id="chat-form" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea id="message" name="message" class="form-control" rows="3" placeholder="{% trans "Type your message here..." %}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <img src="{% static 'main/media/envoyer-flèche.svg' %}" alt="{% trans "Send" %}"> {% trans "Send" %}
+            </button>
+        </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
 <script>
-    document.getElementById('chat-form').onsubmit = function(event) {
+    document.getElementById('chat-form').addEventListener('submit', function(event) {
         event.preventDefault();
-        let input = document.getElementById('chat-input');
-        let message = input.value;
-        input.value = '';
+        const message = document.getElementById('message').value;
         fetch("{% url 'chatbot' %}", {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}"
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({message: message})
         })
         .then(response => response.json())
         .then(data => {
-            let chatMessages = document.getElementById('chat-messages');
-            chatMessages.innerHTML += '<div>' + data.answer + '</div>';
+            const chatResponse = document.getElementById('chat-response');
+            const responseElement = document.createElement('div');
+            responseElement.className = 'listin__item';
+            responseElement.innerHTML = `<strong>{% trans "You" %}:</strong> ${message}<br><strong>{% trans "Chatbot" %}:</strong> ${data.response}`;
+            chatResponse.appendChild(responseElement);
+            document.getElementById('message').value = '';
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
-    };
+    });
 </script>
 {% endblock %}

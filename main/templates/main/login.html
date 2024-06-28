@@ -4,13 +4,22 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="listin__item">
-        <h1>Login</h1>
+<div class="container mt-4" style="position: relative; z-index: 1;">
+    <h1 class="card-title">Login</h1>
+    <div class="card listin__item">
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form-group">
+                <label for="username">{% trans "Username" %}</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">{% trans "Password" %}</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary listin__item">
+                <img src="{% static 'main/media/login.svg' %}" alt="Login"> {% trans "Login" %}
+            </button>
         </form>
     </div>
 </div>

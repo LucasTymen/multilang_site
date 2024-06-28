@@ -15,11 +15,29 @@
     <p>Votre destination ultime pour tout ce qui concerne le développement en Python, Django, Java, Spring, Angular et bien plus encore. Que vous soyez un développeur chevronné ou un passionné de technologie en quête de nouvelles découvertes, notre blog est conçu pour vous offrir une veille technique de pointe et des articles divertissants pour les geeks. Rejoignez notre communauté et restez à jour avec les dernières tendances, astuces et innovations dans le monde du développement logiciel.</p>
     <!-- List of articles on the home page -->
     <div class="article-list">
-        {% for article in articles %}
-        <div class="listin__item article-card">
-            <h2><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h2>
-        </div>
-        {% endfor %}
-    </div>
+      {% for article in articles %}
+      <div class="listin__item article-card">
+          <h2 class="card-title"><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h2>
+          <p class="card-content">{{ article.summary }}</p>
+          <div class="d-flex justify-content-between">
+              <p class="card-content">{{ article.author.username }}</p>
+              <p class="card-content">{{ article.publication_date }}</p>
+          </div>
+          {% if user.is_authenticated and user == article.author %}
+          <div class="d-flex justify-content-end">
+              <a href="{% url 'article_update' article.slug %}" class="btn btn-warning listin__item">
+                  <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
+              </a>
+              <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger listin__item">
+                      <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
+                  </button>
+              </form>
+          </div>
+          {% endif %}
+      </div>
+      {% endfor %}
+  </div>
 </div>
 {% endblock %}

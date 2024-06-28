@@ -4,14 +4,33 @@
 {% block title %}Search{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="listin__item">
-        <h1>Search Results</h1>
-        <ul>
+<div class="container mt-4" style="position: relative; z-index: 1;">
+    <h1 class="card-title">{% trans "Search" %}</h1>
+    <div class="card listin__item">
+        <h2>{% trans "Search Results" %}</h2>
+        <form method="get" action="{% url 'search' %}">
+            <div class="form-group">
+                <input type="text" name="q" class="form-control" placeholder="{% trans 'Search...' %}" value="{{ request.GET.q }}">
+            </div>
+            <button type="submit" class="btn btn-primary listin__item">
+                <img src="{% static 'main/media/search-icon.svg' %}" alt="Search"> {% trans "Search" %}
+            </button>
+        </form>
+        {% if query %}
+        <p>{% trans "Results for" %} "{{ query }}":</p>
+        {% if articles %}
+        <div class="article-list">
             {% for article in articles %}
-            <li><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></li>
+            <div class="listin__item article-card">
+                <h2><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h2>
+                <p>{{ article.content|truncatewords:30 }}</p>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
+        {% else %}
+        <p>{% trans "No results found." %}</p>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

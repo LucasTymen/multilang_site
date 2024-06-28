@@ -1,20 +1,37 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
 
-{% block title %}{% if form.instance.pk %}Edit Article{% else %}Create Article{% endif %}{% endblock %}
+{% block title %}
+    {% if form.instance.pk %}
+        {% trans "Edit Article" %}
+    {% else %}
+        {% trans "Create Article" %}
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Form header -->
     <div class="listin__item">
-        <h1>{% if form.instance.pk %}Edit Article{% else %}Create Article{% endif %}</h1>
+        <h1>
+            {% if form.instance.pk %}
+                {% trans "Edit Article" %}
+            {% else %}
+                {% trans "Create Article" %}
+            {% endif %}
+        </h1>
+
+        <!-- Article form -->
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+
+            <!-- Submit button -->
             <button type="submit" class="btn btn-primary">
                 {% if form.instance.pk %}
-                <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Update"> Update
+                    <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Update" %}"> {% trans "Update" %}
                 {% else %}
-                <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Create"> Create
+                    <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="{% trans "Create" %}"> {% trans "Create" %}
                 {% endif %}
             </button>
         </form>

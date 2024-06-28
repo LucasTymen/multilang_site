@@ -4,11 +4,16 @@
 {% block title %}Logout{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="listin__item">
-        <h1>Logout</h1>
-        <p>You have been logged out.</p>
-        <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+<div class="container mt-4" style="position: relative; z-index: 1;">
+    <h1 class="card-title">Logout</h1>
+    <div class="card listin__item">
+        <p>{% trans "Are you sure you want to logout?" %}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary listin__item">
+                <img src="{% static 'main/media/logout.svg' %}" alt="Logout"> {% trans "Logout" %}
+            </button>
+        </form>
     </div>
 </div>
 {% endblock %}

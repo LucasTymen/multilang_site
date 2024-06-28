@@ -11,32 +11,32 @@
         <p>{{ article.publication_date }}</p>
         <p>{{ article.author.username }}</p>
 
-        <h2>Comments</h2>
+        <h2>{% trans "Comments" %}</h2>
         <ul>
             {% for comment in comments %}
-            <li>
+            <li class="listin__item-comment">
                 {{ comment.author }}: {{ comment.content }} on {{ comment.publication_date }}
             </li>
             {% endfor %}
         </ul>
 
-        <h3>Add a comment</h3>
+        <h3>{% trans "Add a comment" %}</h3>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">
-                <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Submit"> Submit
+                <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Submit" %}"> {% trans "Submit" %}
             </button>
         </form>
 
         {% if user.is_authenticated and user == article.author %}
         <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
-            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="Edit"> Edit
+            <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Edit" %}"> {% trans "Edit" %}
         </a>
         <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">
-                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete
+                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="{% trans "Delete" %}"> {% trans "Delete" %}
             </button>
         </form>
         {% endif %}

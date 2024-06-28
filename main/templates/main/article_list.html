@@ -1,17 +1,45 @@
 {% extends 'main/base.html' %}
 {% load static i18n %}
 
-{% block title %}Articles{% endblock %}
+{% block title %}{% trans "Article List" %}{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="listin__item">
-        <h1>Articles</h1>
-        <ul>
+        <h1>{% trans "Article List" %}</h1>
+
+        <!-- List of articles -->
+        <ul class="article-list">
             {% for article in articles %}
-            <li><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></li>
+            <li class="listin__item">
+                <h2><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h2>
+                <p>{{ article.content|truncatewords:20 }}</p>
+                <p>{{ article.publication_date }}</p>
+                <p>{{ article.author.username }}</p>
+
+                {% if user.is_authenticated and user == article.author %}
+                <div class="article-actions">
+                    <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
+                        <img src="{% static 'main/media/ecrire-lignes-stylo.svg' %}" alt="{% trans "Edit" %}"> {% trans "Edit" %}
+                    </a>
+                    <form action="{% url 'article_delete' article.slug %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="{% trans "Delete" %}"> {% trans "Delete" %}
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </li>
             {% endfor %}
         </ul>
+
+        <!-- Create new article button -->
+        {% if user.is_authenticated %}
+        <a href="{% url 'article_create' %}" class="btn btn-primary">
+            <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="{% trans "Create New Article" %}"> {% trans "Create New Article" %}
+        </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

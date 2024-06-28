@@ -4,16 +4,25 @@
 {% block title %}Delete Account{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="listin__item">
-        <h1>Delete Account</h1>
-        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-        <form method="post">
+<div class="container mt-4">
+    <div class="card listin__item">
+        <h1 class="card-title">{{ user.username }}</h1>
+        <p class="card-content">{{ user.email }}</p>
+        <p class="card-content">{{ user.date_joined }}</p>
+
+        <h2 class="card-title">Confirm Account Deletion</h2>
+        <p class="card-content">Are you sure you want to delete your account? This action cannot be undone.</p>
+
+        <form method="post" class="mb-3">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">
-                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Delete Account
+            <button type="submit" class="btn btn-danger listin__item">
+                <img src="{% static 'main/media/rectangle-xmark.svg' %}" alt="Delete"> Confirm Delete
             </button>
         </form>
+
+        <a href="{% url 'profile' %}" class="btn btn-secondary listin__item">
+            <img src="{% static 'main/media/arrow-left.svg' %}" alt="Cancel"> Cancel
+        </a>
     </div>
 </div>
 {% endblock %}

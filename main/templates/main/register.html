@@ -4,13 +4,16 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="listin__item">
-        <h1>Register</h1>
+<div class="container mt-4" style="position: relative; z-index: 1;">
+    <h1 class="card-title">{% trans "Register" %}</h1>
+    <div class="card listin__item">
+        <h2>{% trans "Create a new account" %}</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary listin__item">
+                <img src="{% static 'main/media/ajouter-plus.svg' %}" alt="Register"> {% trans "Register" %}
+            </button>
         </form>
     </div>
 </div>
