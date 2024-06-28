@@ -747,3 +747,487 @@ ul.nav.flex-column li.nav-item a.nav-link:hover {
   margin-bottom: 20px;
   background-color: #f9f9f9;
 }
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Colors */
+:root {
+  --primary-color: #003366; /* Dark blue */
+  --secondary-color: #0098db; /* Light blue */
+  --accent-color: #f79c00; /* Orange */
+  --background-color: #ffffff; /* White */
+  --text-color: #333333; /* Dark grey */
+  --border-color: #e0e0e0; /* Light grey */
+}
+
+/* General Styles */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+p {
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Buttons */
+button, .btn {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--primary-color);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: var(--background-color);
+  text-decoration: none;
+  padding: 10px;
+}
+
+.navbar a:hover {
+  background-color: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* Row and Column */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col {
+  flex: 1;
+  padding: 0 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Sidebar */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #f8f9fa33;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a {
+  padding: 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #ffffff2d;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Sidebar wrapper styles */
+#sidebar-wrapper {
+  min-width: 250px; /* Minimum width of the sidebar */
+  max-width: 250px; /* Maximum width of the sidebar */
+}
+
+.main {
+  margin-left: 220px; /* Space the main content from the sidebar */
+  padding: 20px; /* Add padding around the main content */
+}
+
+#wrapper {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Arrange items in a row */
+}
+
+#page-content-wrapper {
+  flex: 1; /* Allow the content to take the remaining space */
+  padding-left: 250px; /* Space from the sidebar */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px; /* Hide the sidebar when toggled */
+  }
+
+  #page-content-wrapper {
+    padding-left: 0; /* Remove left padding for the main content */
+  }
+
+  .navbar {
+    flex-direction: column;
+  }
+
+  .navbar a {
+    padding: 8px;
+  }
+
+  .card {
+    margin: 10px 0;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.6em;
+  }
+}
+
+/* Cards */
+.card {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.5em;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.card-content {
+  font-size: 1em;
+  color: var(--text-color);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  padding: 20px;
+  text-align: center;
+}
+
+.footer a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Article list styles */
+.article-list {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange items in a column */
+  align-items: center; /* Center items vertically */
+}
+
+.article-card {
+  width: 100%; /* Set the width of the cards */
+  display: flex; /* Use flexbox for the card layout */
+  flex-direction: column; /* Arrange content in a column */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  border: 1px solid #ddd; /* Add a border to the cards */
+  margin-bottom: 10px; /* Add space between the cards */
+  background-color: #fff; /* Set the background color */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.article-card h2 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.2rem; /* Set the font size */
+}
+
+.article-card p {
+  margin: 5px 0 0; /* Add margin to the paragraph */
+  font-size: 0.9rem; /* Set the font size */
+  color: #555; /* Set the text color */
+}
+
+/* Chatbot styles */
+#chat-response {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+#chat-form {
+  margin: 20px;
+}
+
+#message {
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+#send-btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Example CSS to imitate the style of diot-siaci.com */
+.listin__item {
+  border: 2px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+  border-image-source: linear-gradient(45deg, #42a5f5, #478ed1);
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.listin__item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.listin__item h2, .listin__item h1 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.listin__item p {
+  font-size: 1em;
+  color: #555;
+}
+
+.listin__item::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #42a5f5, #478ed1);
+  z-index: -1;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.listin__item:hover::before {
+  opacity: 1;
+}
+
+/* Menu toggle button styles */
+#menu-toggle {
+  margin-left: 20px;
+}
+
+/* Navigation styles */
+ul.nav.flex-column {
+  padding-left: 0;
+}
+
+ul.nav.flex-column li.nav-item {
+  list-style: none;
+}
+
+ul.nav.flex-column li.nav-item a.nav-link {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+ul.nav.flex-column li.nav-item a.nav-link:hover {
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+
+/* Background video container */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -200;
+  overflow: hidden;
+}
+
+.video-foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-foreground iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ensure the video covers the full viewport width */
+  height: 100vh; /* Ensure the video covers the full viewport height */
+  pointer-events: none; /* Disable pointer events to interact with the content above */
+  object-fit: cover; /* Cover the entire container */
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0); /* Transparent overlay */
+  z-index: -199;
+}
+
+/* Ensure that links and other interactive elements remain clickable */
+.container, .container * {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #f8f9fa4a;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  color: var(--background-color);
+  z-index: 999; /* Ensure the sidebar is always on top */
+  overflow-y: auto; /* Scrollable sidebar */
+}
+
+.sidebar a {
+  color: var(--background-color);
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+}
+
+.sidebar a:hover {
+  background-color: var(--secondary-color);
+}
+
+.sidebar .navbar-brand {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+/* Adjust container for the sidebar */
+.container {
+  margin-left: 260px; /* Add margin to the left to avoid overlap with the sidebar */
+}
+
+/* Additional styles for content */
+.article-list {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange items in a column */
+  align-items: center; /* Center items vertically */
+}
+
+.article-card {
+  width: 100%; /* Set the width of the cards */
+  display: flex; /* Use flexbox for the card layout */
+  flex-direction: column; /* Arrange content in a column */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  border: 1px solid #ddd; /* Add a border to the cards */
+  margin-bottom: 10px; /* Add space between the cards */
+  background-color: #fff; /* Set the background color */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.article-card h2 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.2rem; /* Set the font size */
+}
+
+.article-card p {
+  margin: 5px 0 0; /* Add margin to the paragraph */
+  font-size: 0.9rem; /* Set the font size */
+  color: #555; /* Set the text color */
+}
