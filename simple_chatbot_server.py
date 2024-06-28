@@ -52,7 +52,7 @@ class ChatbotHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             response = {'error': str(e)}
             self.wfile.write(json.dumps(response).encode('utf-8'))
 
-def run(server_class=http.server.HTTPServer, handler_class=ChatbotHTTPRequestHandler, port=8000):
+def run(server_class=http.server.HTTPServer, handler_class=ChatbotHTTPRequestHandler, port=9000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f'Starting httpd server on port {port}...')

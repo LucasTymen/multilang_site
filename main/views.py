@@ -7,6 +7,8 @@ from .models import Article, Comment, ChatbotInteraction
 from .forms import ArticleForm, CommentForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ChatbotInteractionForm
 from .chatbot import get_chatbot_response
 import openai
+import os
+from openai import OpenAI
 from django.conf import settings
 from django.http import JsonResponse
 import json
@@ -116,16 +118,30 @@ def delete_account(request):
 # Chatbot view
 def chatbot(request):
     if request.method == "POST":
+        answer_text = "An error occurred. Please try again later."
         user_message = json.loads(request.body).get("message")
-        openai.api_key = settings.OPENAI_API_KEY
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=user_message,
-            max_tokens=150
-        )
-        response_text = response.choices[0].text.strip()
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        try:
+            answer = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+                    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+                ]
+            )
+            answer_text = answer.choices[0].text.strip()
+        except openai.APIConnectionError as e:
+            print("The server could not be reached")
+            print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+        except openai.RateLimitError as e:
+            print("A 429 status code was received; we should back off a bit.")
+            # return JsonResponse({e.status_code: e.response})
+        except openai.APIStatusError as e:
+            print("Another non-200-range status code was received")
+            print(e.status_code)
+            print(e.response)
         # Save the interaction in the database
-        interaction = ChatbotInteraction(user_question=user_message, chatbot_response=response_text)
-        interaction.save()
-        return JsonResponse({"response": response_text})
+        # interaction = ChatbotInteraction(user_question=user_message, chatbot_response=answer_text)
+        # interaction.save()
+        return JsonResponse({"answer": answer_text})
     return render(request, "main/chatbot.html")

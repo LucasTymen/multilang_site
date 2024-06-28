@@ -31,6 +31,24 @@ services:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
 
+  chatbot:
+    build: .  # Construire le service web à partir du répertoire actuel
+    command: sh -c "python simple_chatbot_server.py"  # Exécuter simple_chatbot_server
+    volumes:
+      - .:/code  # Monter le répertoire actuel sur /code dans le conteneur
+    ports:
+      - "9000:9000"  # Exposer le port 8000
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
   mkdocs:
     build:
       context: .
