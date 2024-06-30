@@ -6,6 +6,10 @@ markdown
 
 Ce projet est une application Django multilingue permettant de gérer et d'afficher des articles de blog. L'application supporte plusieurs langues (français, anglais, italien, allemand, espagnol) et utilise Docker pour le déploiement.
 
+_______________________________________________
+## DOCUMENTATION COMPLETE SUR localhost:8001 ##
+-----------------------------------------------
+
 ## Prérequis
 
 - Python 3.9+
@@ -45,15 +49,16 @@ Ce projet est une application Django multilingue permettant de gérer et d'affic
 
     DB_NAME=multilang_site_db
     DB_USER=lucas
-    DB_PASSWORD=123password123
+    DB_PASSWORD=your_password
     DB_HOST=db
     DB_PORT=5432
 
-    OPENAI_API_KEY=sk-bD4j9kAtYAm0rc3Ay2DNT3BlbkFJr27DBAFT3z6sBePQFQx
+    OPENAI_API_KEY=your_apikey
 
     DEBUG=True
     ALLOWED_HOSTS=127.0.0.1,localhost
-    SECRET_KEY=aze"é&AZE321
+    SECRET_KEY=your_password
+    DB_HOST=db
     ```
 
 2. Créez les fichiers de migration et appliquez-les :
