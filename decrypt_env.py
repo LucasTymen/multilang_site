@@ -1,7 +1,5 @@
-# /home/lucas/code/LucasTymen/projects/codeAcademy/django/multilang_site/decrypt_env.py
-
+# /mnt/data/decrypt_env.py
 from cryptography.fernet import Fernet
-import os
 
 # Load the encryption key
 with open("encryption_key.key", "rb") as key_file:

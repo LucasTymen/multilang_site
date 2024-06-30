@@ -48,4 +48,7 @@ urlpatterns = [
 
     # Route for search page
     path('search/', views.search, name='search'),
+
+    # Route for documentation
+    path('documentation/', views.documentation, name='documentation'),
 ]

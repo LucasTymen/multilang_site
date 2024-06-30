@@ -1,3 +1,5 @@
+# main/views.py
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
@@ -153,7 +155,11 @@ def chatbot(request):
 def search(request):
     if 'q' in request.GET:
         query = request.GET['q']
-        articles = Article.objects.filter(title__icontains=query)
+        articles = Article.objects.filter(title__icontains(query))
     else:
         articles = Article.objects.all()
     return render(request, 'main/search.html', {'articles': articles})
+
+# Documentation view
+def documentation(request):
+    return redirect('http://localhost:8001')
