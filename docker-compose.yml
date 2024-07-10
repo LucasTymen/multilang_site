@@ -17,7 +17,7 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8081:8000"
+      - "8082:8000"  # Changed from 8081 to 8082 to avoid conflict
     depends_on:
       - db
       - openai_server
