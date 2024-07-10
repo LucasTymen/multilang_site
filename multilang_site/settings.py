@@ -15,7 +15,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS','').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
