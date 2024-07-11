@@ -1,17 +1,50 @@
-Django>=4.2.5
+# Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+Django==5.0.7
+
+# Pillow is a Python Imaging Library that adds image processing capabilities.
 Pillow
+
+# OpenAI is a Python library that allows you to interact with OpenAI's GPT-3 language model.
 openai
+
+# django-crispy-forms allows you to have full control of form rendering in your templates.
 django-crispy-forms
+
+# psycopg2-binary is a PostgreSQL database adapter for Python.
 psycopg2-binary
+
+# python-decouple allows you to separate settings from your code for easier configuration.
 python-decouple
+
+# dj-database-url provides a simple way to configure database URLs for Django.
 dj-database-url
+
+# django-allauth is an integrated set of Django applications addressing authentication, registration, account management.
 django-allauth
+
+# crispy-bootstrap5 is a Django application for Bootstrap 5, allowing you to style Django forms using Bootstrap 5.
 crispy-bootstrap5
+
+# python-dotenv reads key-value pairs from a .env file and can set them as environment variables.
 python-dotenv
+
+# mkdocs is a static site generator geared towards project documentation.
 mkdocs==1.4.2
+
+# mkdocs-material is a theme for MkDocs that is built using Google's Material Design guidelines.
 mkdocs-material==8.5.8
+
+# django-compressor handles the compression of linked and inline JavaScript or CSS into a single cached file.
 django-compressor
+
+# whitenoise allows your web app to serve its own static files, making it a self-contained unit that can be deployed anywhere.
 whitenoise
+
+# django-modeltranslation allows you to translate dynamic content of existing models to an arbitrary number of languages.
 django-modeltranslation
+
+# django-rosetta makes it easier for your Django projects to provide translation strings for localization.
 django-rosetta
+
+# idna is a library for the Internationalized Domain Names in Applications (IDNA) protocol.
 idna==3.3

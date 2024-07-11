@@ -10,6 +10,7 @@ import openai
 import os
 from django.http import JsonResponse
 import json
+from django.utils.html import escape
 
 # Function to check if user belongs to a specific group
 def group_required(group_name):
@@ -132,6 +133,8 @@ def delete_account(request):
 def chatbot(request):
     if request.method == "POST":
         user_message = json.loads(request.body).get("message")
+        # Escape user input to prevent SSTI
+        user_message = escape(user_message)
         client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         answer_text = "An error occurred. Please try again later."
         try:
@@ -155,7 +158,9 @@ def chatbot(request):
 def search(request):
     if 'q' in request.GET:
         query = request.GET['q']
-        articles = Article.objects.filter(title__icontains(query))
+        # Escape user input to prevent SSTI
+        query = escape(query)
+        articles = Article.objects.filter(title__icontains=query)
     else:
         articles = Article.objects.all()
     return render(request, 'main/search.html', {'articles': articles})

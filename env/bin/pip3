@@ -1,4 +1,4 @@
-#!/home/lucas/code/LucasTymen/projects/codeAcademy/django/multilang_site/env/bin/python3
+#!/home/lucas/code/LucasTymen/projects/codeAcademy/django/multilang_site/env/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys

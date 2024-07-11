@@ -15,7 +15,14 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS','').split(',')
+
+# Add your domain names to ALLOWED_HOSTS
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', '').split(',') + [
+    'localhost',
+    '127.0.0.1',
+    'lucastymengraphx.synology.me',
+    'multilangsite'
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',

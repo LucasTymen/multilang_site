@@ -4,9 +4,26 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django-allauth = "*"
+django = "==5.0.7"  # Ensuring Django 5.0.7 is used to address the security vulnerability.
+django-allauth = "*"  # Latest compatible version of django-allauth.
+Pillow = "*"  # Latest compatible version of Pillow.
+openai = "*"  # Latest compatible version of openai.
+django-crispy-forms = "*"  # Latest compatible version of django-crispy-forms.
+psycopg2-binary = "*"  # Latest compatible version of psycopg2-binary.
+python-decouple = "*"  # Latest compatible version of python-decouple.
+dj-database-url = "*"  # Latest compatible version of dj-database-url.
+crispy-bootstrap5 = "*"  # Latest compatible version of crispy-bootstrap5.
+python-dotenv = "*"  # Latest compatible version of python-dotenv.
+mkdocs = "*"  # Use the latest version compatible with mkdocs-material.
+mkdocs-material = ">=9.5.5"  # Updated to a secure version.
+django-compressor = "*"  # Latest compatible version of django-compressor.
+whitenoise = "*"  # Latest compatible version of whitenoise.
+django-modeltranslation = "*"  # Latest compatible version of django-modeltranslation.
+django-rosetta = "*"  # Latest compatible version of django-rosetta.
+idna = ">=3.7"  # Updated to a secure version.
+Jinja2 = ">=3.1.4"  # Updated to a secure version.
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.10"  # Use Python 3.10 to ensure compatibility with Django 5.0.7.
