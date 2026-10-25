@@ -1,4 +1,4 @@
-# Python bytecode and virtual environments
+# Python and virtual environments
 __pycache__/
 *.py[cod]
 *.pyo
@@ -7,7 +7,6 @@ __pycache__/
 .venv/
 venv/
 env/
-.env/
 
 # Local environment and secrets
 .env
@@ -15,28 +14,29 @@ env/
 !.env.example
 !.env.template
 *.pem
-*.key
 *.crt
+*.key
 *.p12
 *.pfx
-.envrc
 
-# Databases and generated artifacts
+# Databases and runtime artifacts
 *.sqlite3
 db.sqlite3
 db_test.sqlite3
 staticfiles/
 media/
-coverage.xml
-.coverage
-.pytest_cache/
-htmlcov/
 
 # Editors and OS files
 .idea/
 .vscode/
 .DS_Store
 
-# Logs and temp files
+# Testing / coverage
+.coverage
+.pytest_cache/
+htmlcov/
+coverage.xml
+
+# Logs and temp
 *.log
 *.tmp
