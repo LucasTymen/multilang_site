@@ -1,0 +1,33 @@
+# Python bytecode and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Secret/key material
+*.pem
+*.key
+
+# Django / app runtime artifacts
+*.sqlite3
+db.sqlite3
+staticfiles/
+media/
+
+# OS/editor settings
+.DS_Store
+.idea/
+.vscode/
+
+# Coverage/test results
+.coverage
+.pytest_cache/
+htmlcov/

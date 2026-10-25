@@ -1,0 +1,13 @@
+# Prevent Docker build context from including local secrets or generated data
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+__pycache__/
+*.pyc
+*.sqlite3
+staticfiles/
+media/
+venv/
+.venv/

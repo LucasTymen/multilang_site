@@ -17,7 +17,7 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     depends_on:
       - db
       - openai_server
@@ -38,7 +38,7 @@ services:
       context: .
       dockerfile: Dockerfile.mkdocs
     ports:
-      - "8001:8001"
+      - "127.0.0.1:8001:8001"
     volumes:
       - .:/docs
     command: mkdocs serve --dev-addr=0.0.0.0:8001
@@ -48,7 +48,7 @@ services:
       context: ./openai_server
     command: sh -c "python manage.py runserver 0.0.0.0:8003"
     ports:
-      - "8003:8003"
+      - "127.0.0.1:8003:8003"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     networks:
