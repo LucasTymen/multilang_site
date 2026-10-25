@@ -1,37 +1,50 @@
-version: '3'
+version: '3.9'
 
 services:
   db:
-    image: postgres:13
-    restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/code
+    env_file:
+      - .env
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+    depends_on:
+      db:
+        condition: service_healthy
+      openai_server:
+        condition: service_started
     ports:
       - "127.0.0.1:8000:8000"
-    depends_on:
-      - db
-      - openai_server
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=db
-      - DB_PORT=5432
-      - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=${DEBUG}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-    restart: always
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+      python manage.py migrate &&
+      gunicorn multilang_site.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4"
+    restart: unless-stopped
 
   mkdocs:
     build:
@@ -42,18 +55,19 @@ services:
     volumes:
       - .:/docs
     command: mkdocs serve --dev-addr=0.0.0.0:8001
+    restart: unless-stopped
 
   openai_server:
     build:
       context: ./openai_server
-    command: sh -c "python manage.py runserver 0.0.0.0:8003"
+    env_file:
+      - .env
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     ports:
       - "127.0.0.1:8003:8003"
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-    networks:
-      - default
-    restart: always
+    command: gunicorn openai_server.wsgi:application --bind 0.0.0.0:8003 --workers 2
+    restart: unless-stopped
 
 volumes:
   postgres_data:

@@ -9,20 +9,21 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# OpenAI API Key
-OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 
+def _as_list(raw_value, default):
+    if raw_value is None or raw_value == '':
+        return default
+    return [item.strip() for item in raw_value.split(',') if item.strip()]
+
+
+OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 SECRET_KEY = config('SECRET_KEY', default='dev-secret-key-change-me')
 DEBUG = config('DEBUG', default=False, cast=bool)
-
-
-def _parse_allowed_hosts(raw_hosts):
-    if not raw_hosts:
-        return ['localhost', '127.0.0.1']
-    return [host.strip() for host in raw_hosts.split(',') if host.strip()]
-
-
-ALLOWED_HOSTS = _parse_allowed_hosts(config('ALLOWED_HOSTS', default='localhost,127.0.0.1'))
+ALLOWED_HOSTS = _as_list(config('ALLOWED_HOSTS', default='localhost,127.0.0.1'), ['localhost', '127.0.0.1'])
+CSRF_TRUSTED_ORIGINS = _as_list(
+    config('CSRF_TRUSTED_ORIGINS', default='https://localhost,https://127.0.0.1'),
+    ['https://localhost', 'https://127.0.0.1'],
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -61,10 +62,7 @@ ROOT_URLCONF = 'multilang_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'main/templates',
-            BASE_DIR / 'templates',
-        ],
+        'DIRS': [BASE_DIR / 'main/templates', BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,10 +79,7 @@ WSGI_APPLICATION = 'multilang_site.wsgi.application'
 
 if 'test' in sys.argv:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3'),
-        }
+        'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')}
     }
 else:
     DATABASES = {
@@ -137,26 +132,24 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS if origin.strip()]
 
-# Harden security defaults when not in debug mode.
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_REFERRER_POLICY = 'same-origin'
-else:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False

@@ -3,31 +3,40 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*.pyc
 .venv/
 venv/
 env/
+.env/
 
-# Local environment files
+# Local environment and secrets
 .env
 .env.*
 !.env.example
-
-# Secret/key material
+!.env.template
 *.pem
 *.key
+*.crt
+*.p12
+*.pfx
+.envrc
 
-# Django / app runtime artifacts
+# Databases and generated artifacts
 *.sqlite3
 db.sqlite3
+db_test.sqlite3
 staticfiles/
 media/
-
-# OS/editor settings
-.DS_Store
-.idea/
-.vscode/
-
-# Coverage/test results
+coverage.xml
 .coverage
 .pytest_cache/
 htmlcov/
+
+# Editors and OS files
+.idea/
+.vscode/
+.DS_Store
+
+# Logs and temp files
+*.log
+*.tmp
