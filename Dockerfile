@@ -1,4 +1,4 @@
-# Use an actively maintained Python runtime.
+# Use the official Python image from the Docker Hub
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -14,4 +14,4 @@ COPY . /code/
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn multilang_site.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
