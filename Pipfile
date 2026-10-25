@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 Django = ">=4.2.24,<5.0"
-Pillow = ">=11.0.0"
+Pillow = ">=11.3.0"
 openai = ">=1.54.0"
 django-crispy-forms = ">=2.3"
 psycopg2-binary = ">=2.9.10"
@@ -21,6 +21,7 @@ whitenoise = ">=6.8.2"
 django-modeltranslation = ">=0.19.10"
 django-rosetta = ">=0.10.1"
 idna = ">=3.6"
+gunicorn = ">=23.0.0"
 
 [dev-packages]
 
