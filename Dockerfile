@@ -1,20 +1,17 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+# Use an actively maintained Python runtime.
+FROM python:3.12-slim
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /code
 
-# Copy the requirements file into the container
 COPY requirements.txt /code/
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install any dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the current directory contents into the container at /code
 COPY . /code/
 
-# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Run the migration and then start the server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
