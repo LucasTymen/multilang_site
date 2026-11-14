@@ -1,8 +1,15 @@
 # Django framework: use the maintained 5.2 LTS line.
-Django>=5.2,<5.3
+Django>=5.2.3,<5.3
 
 # Pillow 13 contains the TIFF heap-buffer-overflow fix and requires Python 3.11+.
 Pillow>=13.0.0
+
+# Explicitly upgrade transitive dependencies flagged by Dependabot.
+anyio>=4.9.0
+certifi>=2025.1.31
+h11>=0.16.0
+urllib3>=2.5.0
+requests>=2.32.4
 
 openai
 django-crispy-forms
