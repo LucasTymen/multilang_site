@@ -1,3 +1,8 @@
 # openai_server/requirements.txt
-Django>=5.2,<5.3
+Django>=5.2.3,<5.3
 openai
+anyio>=4.9.0
+certifi>=2025.1.31
+h11>=0.16.0
+urllib3>=2.5.0
+requests>=2.32.4
