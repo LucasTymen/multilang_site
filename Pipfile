@@ -21,6 +21,7 @@ django-modeltranslation = "*"  # Latest compatible version of django-modeltransl
 django-rosetta = "*"  # Latest compatible version of django-rosetta.
 idna = ">=3.7"  # Updated to a secure version.
 Jinja2 = ">=3.1.4"  # Updated to a secure version.
+Pillow = ">=13.0.0"
 
 [dev-packages]
 
